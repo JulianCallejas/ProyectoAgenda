@@ -6,13 +6,17 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 
 
 # Modelos:
-from models.ModelUser import ModelUser
+from model.ModelUser import ModelUser
 
 # Entidades:
-from models.entitis.User import User
+#from models.entitis.User import User
 from model.persona import Persona
 from model.agenda import Agenda
 from model.tarea import Tarea
+
+#Controladores paginas:
+from controller.login import LoginController
+
 
 
 
@@ -39,6 +43,9 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    accion = LoginController.loginController(db)
+    return accion
+    '''
     if request.method == 'POST':
         # print(request.form['username'])
         # print(request.form['password'])
@@ -55,15 +62,15 @@ def login():
                 return redirect(url_for('home'))
 
             else:
-                flash("Clave Invalida...")
+                flash("Usuario y contraseña incorrectos")
                 return render_template('login.html')
         else:
-            flash("Usuario no encontrado...")
+            flash("Usuario y contraseña incorrectos")
             #print('no se encontro usuario')
             return render_template('login.html')
     else:
         return render_template('login.html')
-
+    '''
 
 @app.route ('/logout')
 def logout():
@@ -71,10 +78,10 @@ def logout():
     return redirect(url_for('login'))  
 
 
-@app.route('/home')
+@app.route('/DashBoard')
 @login_required        
 def home():
-    return render_template('escritorio.html')
+    return render_template('DashBoard.html')
 
 def status_401(error):
     return redirect(url_for('login'))

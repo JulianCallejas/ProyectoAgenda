@@ -30,6 +30,8 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
         self.__contrasena = contrasena
         self.__esAdmin = esAdmin
         self.__cargo = cargo
+        self.__usuarioCon = usuario
+
 
         self.__tareas = []
         #self.__agenda = NULL
@@ -99,6 +101,15 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
             str: El usuario de la persona
         """
         return self.__usuario
+
+    @property
+    def usuarioCon(self)->str:
+        """Retorna el usuario de la persona
+
+        Returns:
+            str: El usuario de la persona
+        """
+        return self.__usuarioCon
     
     @property
     def contrasena(self)->str:
@@ -125,7 +136,8 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
         Returns:
             list: La lista de tareas de la persona
         """
-        return self.__esAdmin
+        return int.from_bytes(self.__esAdmin, 'little') == 1
+        
     
 
     @property
@@ -187,6 +199,15 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
             usuario (str): El nuevo usuario de la persona
         """
         self.__usuario=usuario
+
+    @usuarioCon.setter
+    def usuarioCon(self, usuario:str)->None:
+        """Actualiza el usuario de la persona
+
+        Args:
+            usuario (str): El nuevo usuario de la persona
+        """
+        self.__usuarioCon=usuario
         
     @contrasena.setter
     def contrasena(self, contrasena:str)->None:
