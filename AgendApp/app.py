@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from flask import Flask, flash, redirect, render_template, request, redirect, url_for
 from config import config  # importamos la configurtacion
 from flask_mysqldb import MySQL
@@ -16,13 +17,19 @@ from model.tarea import Tarea
 
 #Controladores paginas:
 from controller.login import LoginController
-
-
+from controller.dashBoard import DashBoardController
+from controller.settings import SettingsController
 
 
 app = Flask(__name__)  # Inicializamos flask con la constate name
-db = MySQL(app)
+def new_func(app):
+    db = MySQL(app)
+    return db
+
+db = new_func(app)
 csrf = CSRFProtect()
+logged_user = False
+
 
 login_manager_app = LoginManager(app)
 
@@ -43,34 +50,10 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    accion = LoginController.loginController(db)
+    global logged_user
+    accion, logged_user = LoginController.loginController(db)
     return accion
-    '''
-    if request.method == 'POST':
-        # print(request.form['username'])
-        # print(request.form['password'])
-        #user = User(0,request.form['username'], request.form['password'])
-        user1 = request.form['username']
-        passw1 = request.form['password']
-        #logged_user = ModelUser.login(db, user)
-        logged_user = ModelUser.login(db, user1, passw1)
-        if logged_user != None:
-            if logged_user.contrasena:
-                #login_user(logged_user)
-                print('ingreso')
-                login_user(logged_user)
-                return redirect(url_for('home'))
-
-            else:
-                flash("Usuario y contraseña incorrectos")
-                return render_template('login.html')
-        else:
-            flash("Usuario y contraseña incorrectos")
-            #print('no se encontro usuario')
-            return render_template('login.html')
-    else:
-        return render_template('login.html')
-    '''
+   
 
 @app.route ('/logout')
 def logout():
@@ -78,10 +61,20 @@ def logout():
     return redirect(url_for('login'))  
 
 
-@app.route('/DashBoard')
+@app.route('/dashBoard')
 @login_required        
-def home():
-    return render_template('DashBoard.html')
+def dashBoard():
+    accion = DashBoardController.loginController(db, logged_user)
+    return accion
+    #return render_template('DashBoard.html')
+
+
+@app.route('/settings')
+@login_required        
+def settings():
+    accion = SettingsController.loginController(db, logged_user)
+    return accion
+    
 
 def status_401(error):
     return redirect(url_for('login'))

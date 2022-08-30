@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../static/css/agregar.css">
+</head>
+<body>
+    <div class="text">
+        <p>Agrega nueva tarea</p>
+    </div>
+    <div class="contenedor">
+        <div class="caja-descripcion">
+            <form class="col s12">
+                <div class="textarea-descripcion">
+                    <div class="input-field col s6">
+                        <input id="input_text" type="text" data-length="10">
+                        <label for="input_text">Titulo</label>
+                      </div>
+                </div>
+                <div class="textarea-descripcion">
+                    <textarea name="descripción">Descripción</textarea>
+                </div>
+            </form>
+
+            
+        </div>
+
+        <div class="navbtn">
+            <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
+            <div class="opciones">
+                <a class="waves-effect waves-light btn-large color-back">Inicio</a>
+                <a class="waves-effect waves-light btn-large color-back">Agregar</a>
+                <a class="waves-effect waves-light btn-large color-back">usuario</a>
+                
+                    <textarea class="textarea-comentarios" name="comentarios">comentarios</textarea>
+                
+            </div>
+
+
+        </div>
+    </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

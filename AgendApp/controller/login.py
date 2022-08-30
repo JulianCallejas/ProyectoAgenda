@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from flask import Flask, flash, redirect, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required
 from model.ModelUser import ModelUser
@@ -24,16 +25,17 @@ class LoginController():
                     if logged_user.esAdmin:
                         #return redirect(url_for('home'))
                         flash("ADMINISTRADOR")
-                        return render_template('login.html')
+                        #return render_template('Login.html')
+                        return redirect(url_for('settings')), logged_user
                     else:
-                        return redirect(url_for('home'))
+                        return redirect(url_for('dashBoard')), logged_user
                 else:
                     flash("Usuario y contraseña incorrectos")
-                    return render_template('login.html')
+                    return render_template('Login.html'), logged_user
             else:
                 flash("Usuario y contraseña incorrectos")
                 #print('no se encontro usuario')
-                return render_template('login.html')
+                return render_template('Login.html'), logged_user
         else:
-            return render_template('login.html')
+            return render_template('Login.html'), NULL
 

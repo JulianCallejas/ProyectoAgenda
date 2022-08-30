@@ -1,89 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Proyecto Agenda</title>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'><link rel="stylesheet" href="./static/css/style.css">
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login AgendApp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'>
+    <link rel="stylesheet" href="../static/css/index.css" />
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<h2></h2>
-<div class="container" id="container">
-	<div class="form-container sign-up-container">
-		<form >
-			<h1>Crear una cuenta</h1>
-			<div class="social-container">
-				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-			</div>
-			<span>o use su correo electrónico para registrarse</span>
-			<input type="text" placeholder="Name" />
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<button>Inscribirse</button>
-		</form>
-	</div>
-	<div class="form-container sign-in-container">
-		<form action="/login" method="POST">
-			<h1>Login</h1>
-			<div class="social-container">
-				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-			</div>
-			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-			{% with messages = get_flashed_messages() %}
+    <!-- partial:index.partial.html -->
+    <div class="contenedor">
+        <div class="center">
+            <h2>Log-in</h2>
+            <div class="form-container sign-in-container">
+                <form action="/login" method="POST">
+                    <div class="inputs">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        {% with messages = get_flashed_messages() %}
 
-			{% if messages %}
-			<br />
-			{% for message in messages %}
-			<div class="alert alert-primary alert-dismissible" role="alert">
-				<strong>{{ message }}</strong>
-				<!--button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button-->
-			</div>
-			{% endfor %}
-			{% endif %}
-		
-			{% endwith %}
+                        {% if messages %}
+                        <br />
+                        {% for message in messages %}
+                        <div class="alert alert-primary alert-dismissible" role="alert">
+                            <strong>{{ message }}</strong>
+                            <!--button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button-->
+                        </div>
+                        {% endfor %}
+                        {% endif %}
 
-			<br/>
-			<br/>
-			<span>o use su cuenta</span>
-			<input placeholder="Email" name="username"/>
-			<!--input type="email" placeholder="Email" name="username"/-->
-			<input type="password" placeholder="Password" name="password" />
-			<a href="#">Olvidaste tu contraseña?</a>
-			<button>Iniciar sesión</button>
-		</form>
-	</div>
-	<div class="overlay-container">
-		<div class="overlay">
-			<div class="overlay-panel overlay-left">
-				<h1>¡Bienvenido de nuevo!</h1>
-				<p>Para mantenerse conectado con nosotros, inicie sesión con su información personal</p>
-				<button class="ghost" id="signIn">Iniciar sesión</button>
-			</div>
-			<div class="overlay-panel overlay-right">
-				<h1>Hola, Bienvenido!</h1>
-				<p>Ingresa tus datos personales y comienza tu viaje con nosotros</p>
-				<button class="ghost" id="signUp">inscribirse</button>
-			</div>
-		</div>
-	</div>
-</div>
+                        {% endwith %}
 
-<footer>
-	<p>
-		Creado <i class="fa fa-heart"></i> por
-		<a target="_blank" href=""> Team vicio 6 Mintic </a>
-		- Lea cómo creé esto y cómo puede unirse al desafío
-		<a target="_blank" href="">aqui</a>.
-	</p>
-</footer>
-<!-- partial -->
-  <script  src="./static/js/script.js"></script>
-
+                        <br />
+                        <br />
+                        <div class="input-field col s6">
+                            <input id="first_name" type="text" class="validate" placeholder="Usuario" name="username">
+                            <label for="first_name">Usuario</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="password" type="password" class="validate" placeholder="Contraseña" name="password">
+                            <label for="password">Contraseña</label>
+                        </div>
+                    </div>
+                    <button class="btn waves-effect waves-yellow" type="submit" name="action">Iniciar sesión</button>
+                    <h6>Olvide mi Contraseña</h6>
+                </form>
+            </div>
+        </div>
+        </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
 </body>
 </html>
