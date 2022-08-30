@@ -10,6 +10,10 @@ from models.ModelUser import ModelUser
 
 # Entidades:
 from models.entitis.User import User
+from model.persona import Persona
+from model.agenda import Agenda
+from model.tarea import Tarea
+
 
 
 app = Flask(__name__)  # Inicializamos flask con la constate name
@@ -18,6 +22,8 @@ csrf = CSRFProtect()
 
 login_manager_app = LoginManager(app)
 
+user1 = ""
+passw1 = ""
 
 @login_manager_app.user_loader
 def load_user(id):
@@ -36,10 +42,13 @@ def login():
     if request.method == 'POST':
         # print(request.form['username'])
         # print(request.form['password'])
-        user = User(0,request.form['username'], request.form['password'])
-        logged_user = ModelUser.login(db, user)
+        #user = User(0,request.form['username'], request.form['password'])
+        user1 = request.form['username']
+        passw1 = request.form['password']
+        #logged_user = ModelUser.login(db, user)
+        logged_user = ModelUser.login(db, user1, passw1)
         if logged_user != None:
-            if logged_user.password:
+            if logged_user.contrasena:
                 #login_user(logged_user)
                 print('ingreso')
                 login_user(logged_user)

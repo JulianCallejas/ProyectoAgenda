@@ -1,5 +1,5 @@
-from AgendApp.model.persona import Persona
-from AgendApp.model.tarea import Tarea
+#from model.persona import Persona
+from model.tarea import  Tarea
 
 
 class Agenda:

@@ -1,10 +1,14 @@
-from AgendApp.model.agenda import Agenda
+from asyncio.windows_events import NULL
+from os import get_terminal_size
+from model.agenda import Agenda
+from flask_login import UserMixin
 
 
-class Persona:
+
+class Persona(UserMixin): #clase Persona hereda de User Mixin:
     """Clase que representa a una persona
     """
-    def __init__(self, id_persona:str, nombres:str, apellidos:str, email:str, usuario:str, contrasena:str, tareas:list, agenda) -> None:
+    def __init__(self, id:str, id_persona:str, nombres:str, apellidos:str, email:str, usuario:str, contrasena:str, esAdmin:int, cargo:str) -> None:
         """Constructor de la clase persona
 
         Args:
@@ -17,14 +21,18 @@ class Persona:
             tareas (list): Las tareas que tiene la persona
             agenda (agenda): La agenda de la persona
         """
+        self.id = id
         self.__id_persona = id_persona
         self.__nombres = nombres
         self.__apellidos = apellidos
         self.__email = email
         self.__usuario = usuario
         self.__contrasena = contrasena
-        self.__tareas = tareas
-        self.__agenda = agenda
+        self.__esAdmin = esAdmin
+        self.__cargo = cargo
+
+        self.__tareas = []
+        #self.__agenda = NULL
         
     def __str__(self) -> str:
         """Método que retorna la cadena representativa de la persona
@@ -66,6 +74,15 @@ class Persona:
         return self.__apellidos
     
     @property
+    def nombreCompleto(self)->str:
+        """Retorna los nombres de la persona
+
+        Returns:
+            str: Los nombres de la persona
+        """
+        return self.__nombres + " " + self.__apellidos
+
+    @property
     def email(self)->str:
         """Retorna el email de la persona
 
@@ -101,6 +118,27 @@ class Persona:
         """
         return self.__tareas
     
+    @property
+    def esAdmin(self)->int:
+        """Retorna la lista de tareas de la persona
+
+        Returns:
+            list: La lista de tareas de la persona
+        """
+        return self.__esAdmin
+    
+
+    @property
+    def cargo(self)->str:
+        """Retorna la lista de tareas de la persona
+
+        Returns:
+            list: La lista de tareas de la persona
+        """
+        return self.__cargo
+
+
+
     '''
     Setters
     '''
