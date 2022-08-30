@@ -164,13 +164,19 @@ ALTER TABLE `tareas`
 --
 
 INSERT INTO `usuarios` (`id`, `Usuario`, `Email`, `Contrasena`, `Administrador`) VALUES
-(1, 'angel', 'pedro@gmail.com', 'pbkdf2:sha256:260000$LMxugUi9GxdqdTYx$059a5efa2c51c1e05f3932062960653770cfcaf3fea56a425d8648b9b0fee112', b'0');
+(1, 'angel', 'pedro@gmail.com', 'pbkdf2:sha256:260000$LMxugUi9GxdqdTYx$059a5efa2c51c1e05f3932062960653770cfcaf3fea56a425d8648b9b0fee112', True);
+
+INSERT INTO `usuarios` (`id`, `Usuario`, `Email`, `Contrasena`, `Administrador`) VALUES
+(2, 'pepe', 'pepe@correo.com', 'pbkdf2:sha256:260000$LMxugUi9GxdqdTYx$059a5efa2c51c1e05f3932062960653770cfcaf3fea56a425d8648b9b0fee112', False);
 
 -- Volcado de datos para la tabla `empleados`
 --
 
 INSERT INTO empleados (Id_Empleado, Usuario, Nombre, Apellido, Cargo)
 VALUES('11110000','angel','Angel','Arboleda Cortes','Backend');
+
+INSERT INTO empleados (Id_Empleado, Usuario, Nombre, Apellido, Cargo)
+VALUES('11110001','pepe','Pepe','Perez','Operario');
 
 
 --
