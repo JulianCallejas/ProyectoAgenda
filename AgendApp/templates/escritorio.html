@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="text">
-        <p>Bienvenido, {{ current_user.username }}</p>
+        <p>Bienvenido, {{ current_user.nombreCompleto }}</p>
     </div>
     <a class="btn btn-secondary" href="{{ url_for('logout') }}">Cerrar sesion</a>
 
