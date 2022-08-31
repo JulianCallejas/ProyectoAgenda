@@ -87,12 +87,7 @@ CREATE TABLE `usuarios` (
   `Administrador` bit(1) NOT NULL DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `usuarios`
---
 
-INSERT INTO `usuarios` (`id`, `Usuario`, `Email`, `Contrasena`, `Administrador`) VALUES
-(1, 'angel', 'pedro@gmail.com', 'pbkdf2:sha256:260000$LMxugUi9GxdqdTYx$059a5efa2c51c1e05f3932062960653770cfcaf3fea56a425d8648b9b0fee112', b'0');
 
 --
 -- Índices para tablas volcadas
@@ -163,3 +158,46 @@ ALTER TABLE `tareas`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `Usuario`, `Email`, `Contrasena`, `Administrador`) VALUES
+(1, 'angel', 'pedro@gmail.com', 'pbkdf2:sha256:260000$LMxugUi9GxdqdTYx$059a5efa2c51c1e05f3932062960653770cfcaf3fea56a425d8648b9b0fee112', True);
+
+INSERT INTO `usuarios` (`id`, `Usuario`, `Email`, `Contrasena`, `Administrador`) VALUES
+(2, 'pepe', 'pepe@correo.com', 'pbkdf2:sha256:260000$LMxugUi9GxdqdTYx$059a5efa2c51c1e05f3932062960653770cfcaf3fea56a425d8648b9b0fee112', False);
+
+-- Volcado de datos para la tabla `empleados`
+--
+
+INSERT INTO empleados (Id_Empleado, Usuario, Nombre, Apellido, Cargo)
+VALUES('11110000','angel','Angel','Arboleda Cortes','Backend');
+
+INSERT INTO empleados (Id_Empleado, Usuario, Nombre, Apellido, Cargo)
+VALUES('11110001','pepe','Pepe','Perez','Operario');
+
+
+--
+--Procedimientos almacenados
+--
+
+DELIMITER //
+CREATE PROCEDURE `SP_UserData`(IN loguser VARCHAR(15))
+BEGIN
+SELECT usu.id, usu.Usuario, usu.Contrasena, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo
+FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario
+WHERE usu.Usuario = loguser;
+END
+//
+
+
+DELIMITER //
+CREATE PROCEDURE `SP_UserDataById`(IN logid INT)
+BEGIN
+SELECT usu.id, usu.Usuario, usu.Contrasena, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo
+FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario
+WHERE usu.id = logid;
+END
+//
