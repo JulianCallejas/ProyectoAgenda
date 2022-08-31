@@ -7,7 +7,6 @@ class DevelopmentConfig(Config):
     MYSQL_USER = 'agendapp'
     MYSQL_PASSWORD = 'agendapp1' 
     MYSQL_DB = 'agendapp'
-    MYSQL_PORT = 3307
 config={
     'development':DevelopmentConfig
 }    
