@@ -1,5 +1,5 @@
 #from .entitis.User import User
-from controller.manejoPassword import Contrasena
+from controller.ManejoPassword import Contrasena
 from model.persona import Persona
 
 
