@@ -13,10 +13,21 @@
     <div class="contenedor">
         <div class="caja-descripcion">
             <form class="col s12">
+                <div style="margin: .4rem 0; width: 350px; display: flex; flex-direction: row; gap: 60px;">
+                    <div>
+                        <label for="fecha_maxima">Finalizada el:</label>
+                        <input type="datetime-local" id="fecha_maxima" name="fecha_maxima" value="#" disabled="disabled">
+                    </div>
+                    <div>
+                        <label for="fecha_maxima">fecha maxima: poner la fecha</label>
+                        <input type="datetime-local" id="fecha_maxima" name="fecha_maxima" value="2022-06-12T19:30">
+                    </div>
+                </div>
                 <div class="textarea-descripcion">
                     <div class="input-field col s6">
                         <input id="input_text" type="text" data-length="10">
                         <label for="input_text">Titulo</label>
+
                       </div>
                 </div>
                 <div class="textarea-descripcion">
@@ -42,11 +53,11 @@
                           <span>Estado</span>
                         </label>
                     </p>
+
+                        
                     <div style="margin: .4rem 0; width: 350px;">
-                        <label for="fecha_maxima">fecha maxima: poner la fecha</label>
-                        <input type="datetime-local" id="fecha_maxima" name="fecha_maxima" value="2022-06-12T19:30">
                         <label for="fecha_maxima">Creado por: admin el dia</label>
-                        <input type="datetime-local" id="fecha_maxima" name="fecha_maxima" value="2022-06-12T19:30" disabled="disabled">
+                        <input type="datetime-local" id="fecha_maxima" name="fecha_maxima" value="2022-06-12T19:30" disabled="disabled">    
                     </div>
                     
                 </div>
