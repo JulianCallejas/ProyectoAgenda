@@ -19,18 +19,7 @@
             text-decoration: none;
             color: black;
         }
-        .ver-mas{
-            margin-top: 15px;
-            animation-name: vermas;
-            animation-duration: 1s;
-            animation-iteration-count: infinite;
-        }
 
-        @keyframes vermas {
-            0%   {transform: translateY(0px);}
-            25%  {transform: translateY(25px);}
-            100% {transform: translateY(0px);}
-        }
 
 
     </style>
@@ -38,7 +27,17 @@
 <body>
     <div class="text">
         <p>Bienvenido, {{ current_user.nombreCompleto }}</p>
+        <div class="navbtn">
+            <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
+            <div class="opciones">
+                <a class="waves-effect waves-light btn-large color-back">Inicio</a>
+                <a class="waves-effect waves-light btn-large color-back">Agregar</a>
+                <a class="waves-effect waves-light btn-large color-back">usuario</a>
+                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('logout') }}">Cerrar</a>
+            </div>
+        </div>
     </div>
+    
     <div class="input-admin">
         <div>
             <input style="width: 180px; align-items: center;" id="schear_user" type="text" class="validate" placeholder="Busar Usuario" name="Busar_Usuario"><a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons"><span class="material-symbols-outlined">search</span></i></a>
@@ -52,18 +51,33 @@
         <div class="filter"></div>
         <div class="caja">
             <h3>Nombre de usuario</h3>
-            <p>La descripción debe ser breve</p>
-            <div class="hora">Ultima conexion</div>
+            <div>
+                <ul>
+                    <li>Nombre: xxxxxx</li>
+                    <li>Apellido: xxxxx</li>
+                    <li>Email: xxxxx@xxxx.com</li>
+                  </ul>
+            </div>
         </div>
         <div class="caja">
             <h3>Nombre de usuario</h3>
-            <p>La descripción debe ser breve</p>
-            <div class="hora">Ultima conexion</div>
+            <div>
+                <ul>
+                    <li>Nombre: xxxxxx</li>
+                    <li>Apellido: xxxxx</li>
+                    <li>Email: xxxxx@xxxx.com</li>
+                  </ul>
+            </div>
         </div>
         <div class="caja">
             <h3>Nombre de usuario</h3>
-            <p>La descripción debe ser breve</p>
-            <div class="hora">Ultima conexion</div>
+            <div>
+                <ul>
+                    <li>Nombre: xxxxxx</li>
+                    <li>Apellido: xxxxx</li>
+                    <li>Email: xxxxx@xxxx.com</li>
+                  </ul>
+            </div>
         </div>
 
         <div class="ver-mas">
@@ -76,15 +90,7 @@
         </div>
         
     </div>
-    <div class="navbtn">
-        <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
-        <div class="opciones">
-            <a class="waves-effect waves-light btn-large color-back">Inicio</a>
-            <a class="waves-effect waves-light btn-large color-back">Agregar</a>
-            <a class="waves-effect waves-light btn-large color-back">usuario</a>
-            <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('logout') }}">Cerrar</a>
-        </div>
-    </div>
+
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>

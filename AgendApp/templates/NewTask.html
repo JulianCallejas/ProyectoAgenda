@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="../static/css/agregar.css">
 </head>
 <body>
-    <div class="text">
-        <p>Agrega nueva tarea</p>
-    </div>
     <div class="contenedor">
         <div class="caja-descripcion">
             <form class="col s12">
@@ -34,10 +31,26 @@
             <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
             <div class="opciones">
                 <a class="waves-effect waves-light btn-large color-back">Inicio</a>
-                <a class="waves-effect waves-light btn-large color-back">Agregar</a>
-                <a class="waves-effect waves-light btn-large color-back">usuario</a>
+                <a class="waves-effect waves-light btn-large color-back">Guardar</a>
+                <a class="waves-effect waves-light btn-large color-back">Eleminar</a>
                 
-                    <textarea class="textarea-comentarios" name="comentarios">comentarios</textarea>
+                <textarea class="textarea-comentarios" name="comentarios">comentarios</textarea>
+                <div class="datos1">
+                    <p>
+                        <label>
+                          <input type="checkbox" />
+                          <span>Estado</span>
+                        </label>
+                    </p>
+                    <div style="margin: .4rem 0; width: 350px;">
+                        <label for="fecha_maxima">fecha maxima: poner la fecha</label>
+                        <input type="datetime-local" id="fecha_maxima" name="fecha_maxima" value="2022-06-12T19:30">
+                        <label for="fecha_maxima">Creado por: admin el dia</label>
+                        <input type="datetime-local" id="fecha_maxima" name="fecha_maxima" value="2022-06-12T19:30" disabled="disabled">
+                    </div>
+                    
+                </div>
+
                 
             </div>
 
