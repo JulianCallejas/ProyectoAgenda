@@ -13,14 +13,18 @@
     <div class="contenedor">
         <div class="caja-descripcion">
             <form class="col s12">
-                <div style="margin: .4rem 0; width: 350px; display: flex; flex-direction: row; gap: 60px;">
+                <div style="margin: .4rem 0; width: 350px; display: flex; flex-direction: row;">
                     <div>
-                        <label for="fecha_maxima">Finalizada el:</label>
-                        <input type="datetime-local" id="fecha_maxima" name="fecha_maxima" value="#" disabled="disabled">
+                        <label for="fecha_maxima">fecha maxima:</label>
+                        <input type="date" id="fecha_maxima" name="fecha_maxima" value="2022-06-12">
                     </div>
                     <div>
-                        <label for="fecha_maxima">fecha maxima: poner la fecha</label>
-                        <input type="datetime-local" id="fecha_maxima" name="fecha_maxima" value="2022-06-12T19:30">
+                        <label for="fecha_maxima">Hora de Inicio:</label>
+                        <input type="time" id="appt" name="appt" required>
+                    </div>
+                    <div>
+                        <label for="fecha_maxima">Hora de Finalizacion:</label>
+                        <input type="time" id="appt" name="appt" required>
                     </div>
                 </div>
                 <div class="textarea-descripcion">
