@@ -204,6 +204,10 @@ CREATE PROCEDURE `SP_CreateUser`(IN p_Usuario varchar(15), p_Email varchar(45), 
 BEGIN
     insert into usuarios(Usuario, Email, Contrasena, Administrador)
     values (p_Usuario, p_Email, p_Contrasena, p_Administrador);
+    
+    INSERT INTO agendas(Usuario)
+    VALUES(p_Usuario);
+    
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
