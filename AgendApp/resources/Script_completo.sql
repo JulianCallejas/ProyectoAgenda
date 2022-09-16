@@ -348,7 +348,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `SP_SelectTareasUsuario`(IN p_id int)
+CREATE PROCEDURE `SP_SelectTareasUsuario`(IN p_Usuario varchar(15))
 BEGIN
 	SELECT 	usu.Usuario, 
 		usu.Email, 
@@ -367,7 +367,7 @@ BEGIN
         tar.Fecha_Creacion, 
         tar.Fecha_Cerrie
 FROM usuarios AS usu LEFT JOIN agendas  AS age ON usu.Usuario = age.Usuario LEFT JOIN tareas AS tar ON age.Id_Agenda = tar.Id_Agenda1
-WHERE usu.Usuario = useragenda AND  tar.Id_tarea = idtarea
+WHERE usu.Usuario = p_Usuario
 ORDER BY tar.Estado DESC, tar.Fecha DESC;
 END ;;
 DELIMITER ;
