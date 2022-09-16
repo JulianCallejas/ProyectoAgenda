@@ -8,7 +8,7 @@ class SettingsController():
     def loginController(rq, db, logged_user):
         if logged_user.esAdmin:
             flash("PANTALLA ADMINISTRADOR")
-            return render_template('loginAngel.html')
+            return render_template('admin-dashboard.html')
         else:
             flash("Debe ingresar como Administrador")
             return render_template('Login.html')

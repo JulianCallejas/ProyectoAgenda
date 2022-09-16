@@ -18,7 +18,7 @@ from model.tarea import Tarea
 #Controladores paginas:
 from controller.login import LoginController
 from controller.dashBoard import DashBoardController
-from controller.settings import SettingsController
+from controller.adminDashboard import SettingsController
 
 
 app = Flask(__name__)  # Inicializamos flask con la constate name
@@ -69,9 +69,9 @@ def dashBoard():
     #return render_template('DashBoard.html')
 
 
-@app.route('/settings')
+@app.route('/admin-dashboard')
 @login_required        
-def settings():
+def adminDashboard():
     accion = SettingsController.loginController(db, logged_user)
     return accion
     

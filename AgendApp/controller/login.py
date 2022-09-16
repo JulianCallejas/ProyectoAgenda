@@ -24,9 +24,9 @@ class LoginController():
                     login_user(logged_user)
                     if logged_user.esAdmin:
                         #return redirect(url_for('home'))
-                        flash("ADMINISTRADOR")
+                        #flash("ADMINISTRADOR")
                         #return render_template('Login.html')
-                        return redirect(url_for('settings')), logged_user
+                        return redirect(url_for('adminDashboard')), logged_user
                     else:
                         return redirect(url_for('dashBoard')), logged_user
                 else:
