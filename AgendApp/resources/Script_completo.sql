@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS agendapp;
+CREATE DATABASE  IF NOT EXISTS `agendapp` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `agendapp`;
+
 -- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
 -- Host: localhost    Database: agendapp
@@ -152,7 +156,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_CreateEmpleados`(IN p_Id_Empleado varchar(12), p_Usuario varchar(15), p_Nombre varchar(45), p_Apellido varchar(45), p_Cargo varchar(45))
+CREATE PROCEDURE `SP_CreateEmpleados`(IN p_Id_Empleado varchar(12), p_Usuario varchar(15), p_Nombre varchar(45), p_Apellido varchar(45), p_Cargo varchar(45))
 BEGIN
     insert into agendas(Id_Empleado, Usuario, Nombre, Apellido, Cargo)
     values (p_Id_Empleado, p_Usuario, p_Nombre, p_Apellido, p_Cargo);
@@ -172,13 +176,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_CreateTareas`(IN p_Id_Tarea int, p_Usuario varchar(45), p_Creadapor varchar(45), p_Fecha date, p_Hora_Inicio time,
+CREATE PROCEDURE `SP_CreateTareas`(IN p_Usuario varchar(45), p_Creadapor varchar(45), p_Fecha date, p_Hora_Inicio time,
 p_Hora_Final time, p_Titulo_Tarea varchar(45), p_Descripcion varchar(255), p_Comentarios text, p_Estado varchar(45), p_Fecha_Creacion datetime, 
 p_Fecha_Cierre datetime, Id_Agenda1 int)
 BEGIN
-    insert into agendas(Id_Tarea, Usuario, Creadapor, Fecha, Hora_Inicio, Hora_Final, Titulo_Tarea, Descripcion, Comentarios, 
+    insert into agendas(Usuario, Creadapor, Fecha, Hora_Inicio, Hora_Final, Titulo_Tarea, Descripcion, Comentarios, 
     Estado, Fecha_Creacion, Fecha_Cierre, Id_Agenda1)
-    values (p_Id_Tarea, p_Usuario, p_Creadapor, p_Fecha, p_Hora_Inicio, p_Hora_Final, p_Titulo_Tarea, p_Descripcion, p_Comentarios, 
+    values (p_Usuario, p_Creadapor, p_Fecha, p_Hora_Inicio, p_Hora_Final, p_Titulo_Tarea, p_Descripcion, p_Comentarios, 
     p_Estado, p_Fecha_Creacion, p_Fecha_Cierre, Id_Agenda1);
 END ;;
 DELIMITER ;
@@ -196,10 +200,10 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_CreateUser`(IN p_id int, p_Usuario varchar(15), p_Email varchar(45), p_Contrasena char(102), p_Administrador bit(1))
+CREATE PROCEDURE `SP_CreateUser`(IN p_Usuario varchar(15), p_Email varchar(45), p_Contrasena char(102), p_Administrador bit(1))
 BEGIN
-    insert into usuarios(id, Usuario, Email, Contrasena, Administrador)
-    values (p_id, p_Usuario, p_Email, p_Contrasena, p_Administrador);
+    insert into usuarios(Usuario, Email, Contrasena, Administrador)
+    values (p_Usuario, p_Email, p_Contrasena, p_Administrador);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -216,7 +220,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DeleteAgendas`(IN p_Id_Agenda int)
+CREATE PROCEDURE `SP_DeleteAgendas`(IN p_Id_Agenda int)
 BEGIN
     DELETE FROM agendas
     WHERE Id_Agenda = p_Id_Agenda;
@@ -236,7 +240,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DeleteEmpleados`(IN p_Id_Empleado int)
+CREATE PROCEDURE `SP_DeleteEmpleados`(IN p_Id_Empleado int)
 BEGIN
     DELETE FROM agendas
     WHERE Id_Empleado = p_Id_Empleado;
@@ -256,7 +260,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DeleteTareas`(IN p_Id_Tarea int)
+CREATE PROCEDURE `SP_DeleteTareas`(IN p_Id_Tarea int)
 BEGIN
     DELETE FROM tareas
     WHERE Id_Tarea = p_Id_Tarea;
@@ -276,7 +280,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_DeleteUser`(IN p_id int)
+CREATE PROCEDURE `SP_DeleteUser`(IN p_id int)
 BEGIN
     DELETE FROM usuarios
     WHERE id = p_id;
@@ -296,7 +300,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_SelectAllUsuarios`()
+CREATE PROCEDURE `SP_SelectAllUsuarios`()
 BEGIN
 	SELECT id, usu.Usuario, Id_Empleado, Nombre, Apellido, Cargo, Email, Administrador
 	FROM usuarios AS usu
@@ -318,7 +322,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_SelectTarea`(IN p_Id_Tarea int)
+CREATE PROCEDURE `SP_SelectTarea`(IN p_Id_Tarea int)
 BEGIN
 	SELECT Id_Tarea, Usuario, Creadapor, Fecha, Hora_Inicio, Hora_Final, Titulo_Tarea, Descripcion, Comentarios, 
     Estado, Fecha_Creacion, Fecha_Cierre, Id_Agenda1
@@ -340,14 +344,27 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_SelectTareasUsuario`(IN p_id int)
+CREATE PROCEDURE `SP_SelectTareasUsuario`(IN p_id int)
 BEGIN
-	SELECT id, usu.Usuario, Id_Tarea, Creadapor, Fecha, Hora_Inicio, Hora_Final, Titulo_Tarea, Descripcion, 
-    Comentarios, Estado, Fecha_Creacion, Fecha_Cierre, Id_Agenda1
-	FROM usuarios AS usu
-	INNER JOIN tareas AS tar
-	ON usu.usuario = tar.usuario
-    WHERE id = p_id;
+	SELECT 	usu.Usuario, 
+		usu.Email, 
+        usu.Administrador, 
+        age.Id_Agenda, 
+        tar.Id_tarea, 
+        tar.Usuario, 
+        tar.Creadapor, 
+        tar.Fecha, 
+        tar.Hora_Inicio, 
+        tar.Hora_Final, 
+        tar.Titulo_Tarea, 
+        tar.Descripción, 
+        tar.Comentarios, 
+        tar.Estado, 
+        tar.Fecha_Creacion, 
+        tar.Fecha_Cerrie
+FROM usuarios AS usu LEFT JOIN agendas  AS age ON usu.Usuario = age.Usuario LEFT JOIN tareas AS tar ON age.Id_Agenda = tar.Id_Agenda1
+WHERE usu.Usuario = useragenda AND  tar.Id_tarea = idtarea
+ORDER BY tar.Estado DESC, tar.Fecha DESC;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -364,10 +381,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_SelectUsuariosWord`(IN p_Word varchar(15))
+CREATE PROCEDURE `SP_SelectUsuariosWord`(IN p_Word varchar(15))
 BEGIN
-    SELECT id, Usuario, Email, Administrador FROM usuarios 
-	WHERE CONCAT(id, usuario, Email, Administrador) LIKE CONCAT('%', p_Word, '%');
+    SELECT usu.id, usu.Usuario, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo
+	FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario 
+	WHERE CONCAT(usu.Usuario, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo) LIKE CONCAT('%', p_Word, '%');
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -384,7 +402,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UpdateAgendas`(IN p_Id_Agenda int, p_Usuario varchar(15))
+CREATE PROCEDURE `SP_UpdateAgendas`(IN p_Id_Agenda int, p_Usuario varchar(15))
 BEGIN
     UPDATE agendas
     SET Usuario = p_Usuario
@@ -405,7 +423,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UpdateEmpleados`(IN p_Id_Empleado varchar(12), p_Usuario varchar(15), p_Nombre varchar(45), p_Apellido varchar(45), p_Cargo varchar(45))
+CREATE PROCEDURE `SP_UpdateEmpleados`(IN p_Id_Empleado varchar(12), p_Usuario varchar(15), p_Nombre varchar(45), p_Apellido varchar(45), p_Cargo varchar(45))
 BEGIN
     UPDATE agendas
     SET Usuario = p_Usuario, Nombre = p_Nombre, Apellido = p_Apellido, Cargo = p_Cargo
@@ -426,7 +444,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UpdateTareas`(IN p_Id_Tarea int, p_Usuario varchar(45), p_Creadapor varchar(45), p_Fecha date, p_Hora_Inicio time,
+CREATE PROCEDURE `SP_UpdateTareas`(IN p_Id_Tarea int, p_Usuario varchar(45), p_Creadapor varchar(45), p_Fecha date, p_Hora_Inicio time,
 p_Hora_Final time, p_Titulo_Tarea varchar(45), p_Descripcion varchar(255), p_Comentarios text, p_Estado varchar(45), p_Fecha_Creacion datetime, 
 p_Fecha_Cierre datetime, Id_Agenda1 int)
 BEGIN
@@ -451,7 +469,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UpdateUser`(IN p_id int, p_Usuario varchar(15), p_Email varchar(45), p_Contrasena char(102), p_Administrador bit(1))
+CREATE PROCEDURE `SP_UpdateUser`(IN p_id int, p_Usuario varchar(15), p_Email varchar(45), p_Contrasena char(102), p_Administrador bit(1))
 BEGIN
     UPDATE usuarios
     SET Usuario = p_Usuario, Email = p_Email, Contrasena = p_Contrasena, Administrador = p_Administrador
@@ -472,7 +490,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UserData`(IN loguser VARCHAR(15))
+CREATE PROCEDURE `SP_UserData`(IN loguser VARCHAR(15))
 BEGIN
 SELECT usu.id, usu.Usuario, usu.Contrasena, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo
 FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario
@@ -493,7 +511,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_UserDataById`(IN logid INT)
+CREATE PROCEDURE `SP_UserDataById`(IN logid INT)
 BEGIN
 SELECT usu.id, usu.Usuario, usu.Contrasena, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo
 FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario
