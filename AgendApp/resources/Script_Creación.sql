@@ -84,7 +84,7 @@ CREATE TABLE `usuarios` (
   `Usuario` varchar(15) NOT NULL,
   `Email` varchar(45) NOT NULL,
   `Contrasena` char(102) NOT NULL,
-  `Administrador` bit(1) NOT NULL DEFAULT b'False'
+  `Administrador` bit(1) NOT NULL DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

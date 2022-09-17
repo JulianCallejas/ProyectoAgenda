@@ -18,7 +18,7 @@ from model.tarea import Tarea
 #Controladores paginas:
 from controller.login import LoginController
 from controller.dashBoard import DashBoardController
-from controller.settings import SettingsController
+from controller.adminDashboard import SettingsController
 
 
 app = Flask(__name__)  # Inicializamos flask con la constate name
@@ -30,9 +30,7 @@ db = new_func(app)
 csrf = CSRFProtect()
 logged_user = False
 
-
 login_manager_app = LoginManager(app)
-
 user1 = ""
 passw1 = ""
 
@@ -64,17 +62,30 @@ def logout():
 @app.route('/dashBoard')
 @login_required        
 def dashBoard():
-    accion = DashBoardController.loginController(db, logged_user)
+    global logged_user
+    accion, logged_user.agenda = DashBoardController.loginController(db, logged_user)
     return accion
     #return render_template('DashBoard.html')
 
 
-@app.route('/settings')
+@app.route('/admin-dashboard')
 @login_required        
-def settings():
+def adminDashboard():
+    global logged_user
     accion = SettingsController.loginController(db, logged_user)
     return accion
+  
+
+@app.route('/task/<string:idtask>')  
+@login_required        
+def task(idtask):
+    global logged_user
+    accion = crear-metodo-controlador-para-renderizar-la-pagina(db,logged_user,idtask)
+    return accion
     
+
+
+
 
 def status_401(error):
     return redirect(url_for('login'))

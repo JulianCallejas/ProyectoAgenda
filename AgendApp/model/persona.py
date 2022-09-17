@@ -19,7 +19,7 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
             usuario (str): El usuario de la persona
             contrasena (str): La contraseña del usuario
             tareas (list): Las tareas que tiene la persona
-            agenda (agenda): La agenda de la persona
+            agenda (int): La agenda de la persona
         """
         self.id = id
         self.__id_persona = id_persona
@@ -34,7 +34,7 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
 
 
         self.__tareas = []
-        #self.__agenda = NULL
+        self.__agenda = 0
         
     def __str__(self) -> str:
         """Método que retorna la cadena representativa de la persona
@@ -138,6 +138,14 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
         """
         return int.from_bytes(self.__esAdmin, 'little') == 1
         
+    @property
+    def agenda(self)->int:
+        """Retorna el id de la agenda asociada al usuario
+
+        Returns:
+            int: id de la agenda asociada al usuario
+        """
+        return self.__agenda
     
 
     @property
@@ -226,6 +234,16 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
             tareas (list): La nueva lista de tareas del usuario
         """
         self.__tareas = tareas
+
+    @agenda.setter
+    def agenda(self, agenda:int)->None:
+        """Actualiza el usuario de la persona
+
+        Args:
+            usuario (str): El nuevo usuario de la persona
+        """
+        self.__agenda = agenda
+
         
         
     '''
@@ -278,7 +296,7 @@ class Usuario(Persona):
         
     """
     
-    def __init__(self, id_persona: str, nombres: str, apellidos: str, email: str, usuario: str, contrasena: str, tareas: list, agenda:Agenda) -> None:
+    def __init__(self, id_persona: str, nombres: str, apellidos: str, email: str, usuario: str, contrasena: str, tareas: list, agenda:int) -> None:
         """Constructor de la clase usuario, pasa los atributos recibidos al constructor de la clase padre e inicializa su agenda
 
         Args:
@@ -289,7 +307,7 @@ class Usuario(Persona):
             usuario (str): El username del usuario
             contrasena (str): La contrasena del usuario
             tareas (list): La lista de tareas del usuario
-            agenda (Agenda): La agenda del usuario básico
+            agenda (int): La agenda del usuario básico
         """
         super().__init__(id_persona, nombres, apellidos, email, usuario, contrasena, tareas)
         self.__agenda = agenda
@@ -298,7 +316,7 @@ class Usuario(Persona):
     Getters
     '''   
     @property
-    def agenda(self)->Agenda:
+    def agenda(self)->int:
         """Retorna la agenda del usuario
 
         Returns:
@@ -310,11 +328,11 @@ class Usuario(Persona):
     Setters
     '''
     @agenda.setter
-    def agenda(self, agenda:Agenda)->None:
+    def agenda(self, agenda:int)->None:
         """Actualiza la agenda del usuario
 
         Args:
-            agenda (Agenda): La nueva agenda del usuario
+            agenda (int): La nueva agenda del usuario
         """
         self.__agenda = agenda
     
@@ -337,7 +355,7 @@ class Administrador(Persona):
         Persona (class): La clase padre de administrador
     """
 
-    def __init__(self, id_persona: str, nombres: str, apellidos: str, email: str, usuario: str, contrasena: str, tareas: list, agendas:list[Agenda]) -> None:
+    def __init__(self, id_persona: str, nombres: str, apellidos: str, email: str, usuario: str, contrasena: str, tareas: list, agendas:list[int]) -> None:
         """Construtor del administrador, pasa los atributos recibidos al constructor de la clase padre e inicializa la lista de agendas
 
         Args:
@@ -348,7 +366,7 @@ class Administrador(Persona):
             usuario (str): El username del administrador
             contrasena (str): La contrase{aa del administrador
             tareas (list): La lista de tareas del administrador
-            agendas (list[Agenda]): La lista de agendas a las que tiene acceso el administrador
+            agendas (list[int]): La lista de agendas a las que tiene acceso el administrador
         """
         super().__init__(id_persona, nombres, apellidos, email, usuario, contrasena, tareas)
         self.__agendas = agendas
@@ -357,11 +375,11 @@ class Administrador(Persona):
     Getters
     '''
     @property
-    def agendas(self)->list[Agenda]:
+    def agendas(self)->list[int]:
         """Retorna la lista de agendas a las que tiene acceso el administrador
 
         Returns:
-            list[Agenda]: La lista de agendas a las que tiene acceso el administrador
+            list[int]: La lista de agendas a las que tiene acceso el administrador
         """
         return self.__agendas
     
@@ -369,7 +387,7 @@ class Administrador(Persona):
     Setters
     '''
     @agendas.setter
-    def agendas(self, agendas:list[Agenda])->None:
+    def agendas(self, agendas:list[int])->None:
         self.__agendas = agendas
 
     '''
