@@ -626,7 +626,8 @@ BEGIN
 	SELECT id, usu.Usuario, Id_Empleado, Nombre, Apellido, Cargo, Email, Administrador
 	FROM usuarios AS usu
 	INNER JOIN empleados AS emp
-	ON usu.usuario = emp.usuario;
+	ON usu.usuario = emp.usuario
+	ORDER BY usu.usuario, Nombre, Apellido;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -706,7 +707,8 @@ CREATE PROCEDURE `SP_SelectUsuariosWord`(IN p_Word varchar(15))
 BEGIN
     SELECT usu.id, usu.Usuario, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo
 	FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario 
-	WHERE CONCAT(usu.Usuario, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo) LIKE CONCAT('%', p_Word, '%');
+	WHERE CONCAT(usu.Usuario, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo) LIKE CONCAT('%', p_Word, '%')
+	ORDER BY usu.Usuario, emp.Nombre, emp.Apellido;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -776,6 +778,26 @@ BEGIN
     WHERE Id_Tarea = p_Id_Tarea;
 END ;;
 DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE `SP_UpdateTareaDeAdministrador`(
+	IN p_Id_Tarea int, 
+    p_Hora_Inicio time, 
+    p_Hora_Final time, 
+    p_Comentarios text, 
+    p_Estado varchar(45),  
+	p_Fecha_Cierre datetime)
+BEGIN
+    UPDATE tareas
+    SET Hora_Inicio = p_Hora_Inicio,
+		Hora_Final = p_Hora_Final, 
+        Comentarios = p_Comentarios,
+		Estado = p_Estado, 
+        Fecha_Cierre = p_Fecha_Cierre 
+    WHERE Id_Tarea = p_Id_Tarea;
+END ;;
+DELIMITER ;
+
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
