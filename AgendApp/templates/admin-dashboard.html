@@ -20,61 +20,67 @@
             color: black;
         }
     </style>
-
 </head>
 
 <body>
-    <div class="text">
+    <div class="text" id="inicio">
         <p>Bienvenido, {{ current_user.nombreCompleto }}</p>
         <div class="navbtn">
             <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
             <div class="opciones">
-                <a class="waves-effect waves-light btn-large color-back">Inicio</a>
-                <a class="waves-effect waves-light btn-large color-back">Agregar</a>
+                <a class="waves-effect waves-light btn-large color-back"  href="{{ url_for('inicio') }}">Inicio</a>
+                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('agregaUsuario') }}">Agregar</a>
                 <a class="waves-effect waves-light btn-large color-back">usuario</a>
                 <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('logout') }}">Cerrar</a>
             </div>
         </div>
     </div>
-    
     <div class="input-admin">
         <div>
-            <input style="width: 180px; align-items: center;" id="schear_user" type="text" class="validate" placeholder="Busar Usuario" name="Busar_Usuario"><button class="btn-floating btn-large waves-effect waves-light color-back" type="submit"><i class="material-icons"><span class="material-symbols-outlined">search</span></i></button>
-        </div>
+            <form action="/admin-dashboard" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input style="width: 180px; align-items: center;"
+                       id="searh_user" type="text" class="validate"
+                       placeholder="Busar Usuario" name="Busar_Usuario">
+                <button class="btn-floating btn-large waves-effect waves-light color-back" type="submit">
+                    <i class="material-icons"><span class="material-symbols-outlined">search</span></i>
+                </button>
+            </form>
+</div>
     </div>
     
-
     <div class="contenedor">
         <div class="filter"></div>
-
-        {% for usuario in usuarios  %}
-
-        <div class="caja">
-            <h3>{{  usuario.1 }}</h3>
+        {% for nu in range(pagina[0]*3) %}
+        {% if pagina[1] > nu %}
+        <div class="caja" id="{{nu}}">
+            <h3>{{  usuarios[nu].1 }}</h3>
             <div>
                 <ul>
-                    <li>Nombre: {{  usuario.3 }}</li>
-                    <li>Apellido: {{  usuario.4 }}</li>
-                    <li>Email: {{  usuario.6 }}</li>
-                    <li>Cargo: {{  usuario.5 }}</li>
+                    <li>Nombre: {{  usuarios[nu].3 }}</li>
+                    <li>Apellido: {{  usuarios[nu].4 }}</li>
+                    <li>Email: {{  usuarios[nu].6 }}</li>
+                    <li>Cargo: {{  usuarios[nu].5 }}</li>
                 </ul>
-                <button class="waves-effect waves-light btn-large color-back" onclick={probarBoton()}>Ver agenda</button>
-                <a class="waves-effect waves-light btn-large color-back">Editar</a>
+                <a class="waves-effect waves-light btn-large color-back" href="/dashBoard/{{usuarios[nu].1}}">Ver agenda</a>
+                <a class="waves-effect waves-light btn-large color-back" href="/edita-usuario/{{usuarios[nu].1}}">Editar</a>
             </div>
         </div>
-
+        {% endif %}
         {% endfor %}
 
-
         <div class="ver-mas">
-            <a href="#">
+            <a href="/admin-dashboard/{{pagina[0]+1}}#{{pagina[0]*3}}">
                 <span class="material-symbols-outlined">
                     expand_more
                 </span>
             </a>
-
+            <a href="#">
+                <span class="material-symbols-outlined">
+                    expand_less
+                </span>
+            </a>
         </div>
-
     </div>
 
     

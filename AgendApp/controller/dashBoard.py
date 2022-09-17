@@ -18,4 +18,4 @@ class DashBoardController():
     @classmethod
     def loginController(rq, db, logged_user):
         data, logged_user = cargaAgenda(db, logged_user)
-        return render_template('DashBoard.html', tareas = data), logged_user.agenda
+        return render_template('DashBoard.html', tareas = data, user=logged_user.usuarioCon), logged_user.agenda

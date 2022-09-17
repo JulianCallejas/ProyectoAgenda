@@ -19,6 +19,7 @@ from model.tarea import Tarea
 from controller.login import LoginController
 from controller.dashBoard import DashBoardController
 from controller.adminDashboard import SettingsController
+from controller.administraUsuario import editaUsuarioController, agregaUsuarioController
 
 
 app = Flask(__name__)  # Inicializamos flask con la constate name
@@ -68,20 +69,52 @@ def dashBoard():
     #return render_template('DashBoard.html')
 
 
+@app.route('/dashBoard/<string:user>')
+@login_required        
+def dashBoardUser(user):
+    global logged_user
+    logged_user.usuarioCon = user
+    accion, logged_user.agenda = DashBoardController.loginController(db, logged_user)
+    return accion
+
+
 @app.route('/admin-dashboard', methods=['GET', 'POST'])
 @login_required        
 def adminDashboard():
     global logged_user
-    accion = SettingsController.loginController(db, logged_user)
-    return accion
-  
-@app.route('/admin-dashboard/<int:pagina>')
-@login_required        
-def adminDashboardFiltro(filtro):
-    global logged_user
-    accion = SettingsController.loginController(db, logged_user, filtro)
+    accion = SettingsController.loginController(db, logged_user, 1)
     return accion
 
+
+@app.route('/admin-dashboard/<int:pagina>', methods=['GET', 'POST'])
+@login_required        
+def adminDashboardPaginas(pagina):
+    global logged_user
+    accion = SettingsController.loginController(db, logged_user, pagina)
+    return accion
+  
+@app.route('/admin-dashboard/<int:pagina>/<string:filtro>', methods=['GET', 'POST'])
+@login_required        
+def adminDashboardFiltro(pagina, filtro):
+    global logged_user
+    accion = SettingsController.loginControllerFiltro(db, logged_user, pagina, filtro)
+    return accion
+
+
+@app.route('/agrega-usuario')
+@login_required        
+def agregaUsuario():
+    global logged_user
+    accion = agregaUsuarioController.renderUsuario(db, logged_user)
+    return accion
+
+
+@app.route('/edita-usuario/<string:user>')
+@login_required        
+def editaUsuario(user):
+    global logged_user
+    accion = editaUsuarioController.renderUsuario(db, logged_user, user)
+    return accion
 
 
 @app.route('/task/<string:idtask>')  
@@ -92,8 +125,15 @@ def task(idtask):
     return accion
     
 
-
-
+@app.route('/inicio')  
+@login_required        
+def inicio():
+    global logged_user
+    if logged_user.esAdmin:
+        return adminDashboard()
+    else:
+        return dashBoard()
+    
 
 def status_401(error):
     return redirect(url_for('login'))

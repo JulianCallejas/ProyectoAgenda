@@ -15,7 +15,7 @@
         <div class="navbtn">
             <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
             <div class="opciones">
-                <a class="waves-effect waves-light btn-large color-back">Inicio</a>
+                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Inicio</a>
                 <a class="waves-effect waves-light btn-large color-back">Agregar</a>
                 <a class="waves-effect waves-light btn-large color-back">usuario</a>
                 <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('logout') }}">Cerrar</a>
@@ -24,10 +24,10 @@
     </div>
 
 
-    {% if current_user.usuario == current_user.usuarioCon %}
+    {% if current_user.usuario == user %}
     <h1 style="text-align: center;">Tu Agenda</h1>
     {% else %}
-    <h1 style="text-align: center;">Agenda de {{current_user.usuarioCon}}</h1>
+    <h1 style="text-align: center;">Agenda de {{user}}</h1>
     {% endif %}
 
     <div class="contenedor">
@@ -57,6 +57,11 @@
             <a href="#">
                 <span class="material-symbols-outlined">
                     expand_more
+                </span>
+            </a>
+            <a href="#">
+                <span class="material-symbols-outlined">
+                    expand_less
                 </span>
             </a>
 
