@@ -707,7 +707,7 @@ CREATE PROCEDURE `SP_SelectUsuariosWord`(IN p_Word varchar(15))
 BEGIN
     SELECT id, usu.Usuario, Id_Empleado, Nombre, Apellido, Cargo, Email, Administrador
 	FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario 
-	WHERE UPPER(CONCAT(usu.Usuario, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo)) LIKE UPPER(CONCAT('%', p_Word, '%'))
+	WHERE CONCAT(UPPER(usu.Usuario), UPPER(usu.Email), UPPER(usu.Administrador), UPPER(emp.Id_Empleado), UPPER(emp.Nombre), UPPER(emp.Apellido), UPPER(emp.Cargo)) LIKE CONCAT('%', UPPER(p_Word), '%')
 	ORDER BY usu.Usuario, emp.Nombre, emp.Apellido;
 END ;;
 DELIMITER ;
