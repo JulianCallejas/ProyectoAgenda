@@ -78,7 +78,18 @@ def adminDashboard():
     global logged_user
     accion = SettingsController.loginController(db, logged_user)
     return accion
+  
+
+@app.route('/task/<string:idtask>')  
+@login_required        
+def task(idtask):
+    global logged_user
+    accion = crearmetodocontroladorpararenderizarlapagina(db,logged_user,idtask)
+    return accion
     
+
+
+
 
 def status_401(error):
     return redirect(url_for('login'))
