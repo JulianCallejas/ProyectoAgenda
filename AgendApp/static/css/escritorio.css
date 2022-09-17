@@ -124,3 +124,34 @@ body{
     top: 70px;
     position: relative;
 }
+
+a {
+    color: black !important;
+    text-decoration: none;
+}
+
+
+    a:link {
+        color: black !important;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: black !important;
+        text-decoration: none;
+    }
+
+    a:focus {
+        color: black !important;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: black !important;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: black !important;
+        text-decoration: none;
+    }

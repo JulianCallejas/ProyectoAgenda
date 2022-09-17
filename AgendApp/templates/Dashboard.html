@@ -27,21 +27,27 @@
 
     <div class="contenedor">
         <div class="filter"></div>
-        <div class="caja">
-            <h3>Titutlo de la nota</h3>
-            <p>La descripción debe ser breve y sera igual visto por el administrador</p>
-            <div class="hora">DD/MM/AAAA</div>
-        </div>
-        <div class="ter caja">
-            <h3>Titutlo de la nota</h3>
-            <p>La descripción debe ser breve y sera igual visto por el administrador</p>
-            <div class="hora">DD/MM/AAAA</div>
-        </div>
-        <div class="caja">
-            <h3>Titutlo de la nota</h3>
-            <p>La descripción debe ser breve y sera igual visto por el administrador</p>
-            <div class="hora">DD/MM/AAAA</div>
-        </div>
+
+        {% for tarea in tareas  %}
+            {% if tarea.13 != "Completa" %}
+                <div class="caja">
+                    <a href="task/{{tarea.4}}">
+                        <h3>{{  tarea.10 }}</h3>
+                        <p>{{ tarea.11 }}</p>
+                        <div class="hora">{{ tarea.7 }} {{tarea.8}}</div>
+                    </a>
+                </div>
+            {% else %}
+                <div class="ter caja">
+                    <a href="task/{{tarea.4}}">
+                        <h3>{{  tarea.10 }}</h3>
+                        <p>{{ tarea.11 }}</p>
+                        <div class="hora">{{ tarea.7 }}</div>
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+
         <div class="ver-mas">
             <a href="#">
                 <span class="material-symbols-outlined">

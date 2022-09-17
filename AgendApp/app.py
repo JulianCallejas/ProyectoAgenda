@@ -21,6 +21,8 @@ from controller.dashBoard import DashBoardController
 from controller.adminDashboard import SettingsController
 
 
+
+
 app = Flask(__name__)  # Inicializamos flask con la constate name
 def new_func(app):
     db = MySQL(app)
@@ -64,7 +66,8 @@ def logout():
 @app.route('/dashBoard')
 @login_required        
 def dashBoard():
-    accion = DashBoardController.loginController(db, logged_user)
+    global logged_user
+    accion, logged_user.agenda = DashBoardController.loginController(db, logged_user)
     return accion
     #return render_template('DashBoard.html')
 
@@ -72,6 +75,7 @@ def dashBoard():
 @app.route('/admin-dashboard')
 @login_required        
 def adminDashboard():
+    global logged_user
     accion = SettingsController.loginController(db, logged_user)
     return accion
     
