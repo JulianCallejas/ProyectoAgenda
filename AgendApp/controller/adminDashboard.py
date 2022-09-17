@@ -12,6 +12,7 @@ def cargarUsuarios(db):
 
 def cargarUsuariosFiltro(db, filtro):
         cursor=db.connection.cursor()
+        print(filtro.upper())
         sql = """CALL SP_SelectUsuariosWord('{}')""".format(filtro)
         cursor.execute(sql)
         data = cursor.fetchall()
