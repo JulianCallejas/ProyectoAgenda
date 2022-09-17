@@ -22,30 +22,35 @@
             </div>
         </div>
     </div>
-    
-    <h1 style="text-align: center;">Tareas</h1>
+
+
+    {% if current_user.usuario == current_user.usuarioCon %}
+    <h1 style="text-align: center;">Tu Agenda</h1>
+    {% else %}
+    <h1 style="text-align: center;">Agenda de {{current_user.usuarioCon}}</h1>
+    {% endif %}
 
     <div class="contenedor">
         <div class="filter"></div>
 
         {% for tarea in tareas  %}
-            {% if tarea.13 != "Completa" %}
-                <div class="caja">
-                    <a href="task/{{tarea.4}}">
-                        <h3>{{  tarea.10 }}</h3>
-                        <p>{{ tarea.11 }}</p>
-                        <div class="hora">{{ tarea.7 }} {{tarea.8}}</div>
-                    </a>
-                </div>
-            {% else %}
-                <div class="ter caja">
-                    <a href="task/{{tarea.4}}">
-                        <h3>{{  tarea.10 }}</h3>
-                        <p>{{ tarea.11 }}</p>
-                        <div class="hora">{{ tarea.7 }}</div>
-                    </a>
-                </div>
-            {% endif %}
+        {% if tarea.13 != "Completa" %}
+        <div class="caja">
+            <a href="task/{{tarea.4}}">
+                <h3>{{  tarea.10 }}</h3>
+                <p>{{ tarea.11 }}</p>
+                <div class="hora">{{ tarea.7 }} {{tarea.8}}</div>
+            </a>
+        </div>
+        {% else %}
+        <div class="ter caja">
+            <a href="task/{{tarea.4}}">
+                <h3>{{  tarea.10 }}</h3>
+                <p>{{ tarea.11 }}</p>
+                <div class="hora">{{ tarea.7 }}</div>
+            </a>
+        </div>
+        {% endif %}
         {% endfor %}
 
         <div class="ver-mas">
@@ -58,7 +63,7 @@
         </div>
     </div>
 
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
