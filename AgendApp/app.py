@@ -21,8 +21,6 @@ from controller.dashBoard import DashBoardController
 from controller.adminDashboard import SettingsController
 
 
-
-
 app = Flask(__name__)  # Inicializamos flask con la constate name
 def new_func(app):
     db = MySQL(app)
@@ -32,9 +30,7 @@ db = new_func(app)
 csrf = CSRFProtect()
 logged_user = False
 
-
 login_manager_app = LoginManager(app)
-
 user1 = ""
 passw1 = ""
 
@@ -84,7 +80,7 @@ def adminDashboard():
 @login_required        
 def task(idtask):
     global logged_user
-    accion = crearmetodocontroladorpararenderizarlapagina(db,logged_user,idtask)
+    accion = crear-metodo-controlador-para-renderizar-la-pagina(db,logged_user,idtask)
     return accion
     
 
