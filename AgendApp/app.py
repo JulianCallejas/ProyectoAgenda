@@ -68,13 +68,21 @@ def dashBoard():
     #return render_template('DashBoard.html')
 
 
-@app.route('/admin-dashboard')
+@app.route('/admin-dashboard', methods=['GET', 'POST'])
 @login_required        
 def adminDashboard():
     global logged_user
     accion = SettingsController.loginController(db, logged_user)
     return accion
   
+@app.route('/admin-dashboard/<int:pagina>')
+@login_required        
+def adminDashboardFiltro(filtro):
+    global logged_user
+    accion = SettingsController.loginController(db, logged_user, filtro)
+    return accion
+
+
 
 @app.route('/task/<string:idtask>')  
 @login_required        

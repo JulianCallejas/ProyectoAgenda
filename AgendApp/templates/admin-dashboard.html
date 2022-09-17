@@ -19,11 +19,10 @@
             text-decoration: none;
             color: black;
         }
-
-
-
     </style>
+
 </head>
+
 <body>
     <div class="text">
         <p>Bienvenido, {{ current_user.nombreCompleto }}</p>
@@ -40,54 +39,32 @@
     
     <div class="input-admin">
         <div>
-            <input style="width: 180px; align-items: center;" id="schear_user" type="text" class="validate" placeholder="Busar Usuario" name="Busar_Usuario"><a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons"><span class="material-symbols-outlined">search</span></i></a>
-        
+            <input style="width: 180px; align-items: center;" id="schear_user" type="text" class="validate" placeholder="Busar Usuario" name="Busar_Usuario"><button class="btn-floating btn-large waves-effect waves-light color-back" type="submit"><i class="material-icons"><span class="material-symbols-outlined">search</span></i></button>
         </div>
-        
-
     </div>
     
+
     <div class="contenedor">
         <div class="filter"></div>
+
+        {% for usuario in usuarios  %}
+
         <div class="caja">
-            <h3>Nombre de usuario</h3>
+            <h3>{{  usuario.1 }}</h3>
             <div>
                 <ul>
-                    <li>Nombre: xxxxxx</li>
-                    <li>Apellido: xxxxx</li>
-                    <li>Email: xxxxx@xxxx.com</li>
-                    <li>Cargo: cccc</li>
+                    <li>Nombre: {{  usuario.3 }}</li>
+                    <li>Apellido: {{  usuario.4 }}</li>
+                    <li>Email: {{  usuario.6 }}</li>
+                    <li>Cargo: {{  usuario.5 }}</li>
                 </ul>
-                <a class="waves-effect waves-light btn-large color-back">Ver</a>
+                <button class="waves-effect waves-light btn-large color-back" onclick={probarBoton()}>Ver agenda</button>
                 <a class="waves-effect waves-light btn-large color-back">Editar</a>
             </div>
         </div>
-        <div class="caja">
-            <h3>Nombre de usuario</h3>
-            <div>
-                <ul>
-                    <li>Nombre: xxxxxx</li>
-                    <li>Apellido: xxxxx</li>
-                    <li>Email: xxxxx@xxxx.com</li>
-                    <li>Cargo: cccc</li>
-                  </ul>
-                  <a class="waves-effect waves-light btn-large color-back">Ver</a>
-                  <a class="waves-effect waves-light btn-large color-back">Editar</a>
-            </div>
-        </div>
-        <div class="caja">
-            <h3>Nombre de usuario</h3>
-            <div>
-                <ul>
-                    <li>Nombre: xxxxxx</li>
-                    <li>Apellido: xxxxx</li>
-                    <li>Email: xxxxx@xxxx.com</li>
-                    <li>Cargo: cccc</li>
-                  </ul>
-                  <a class="waves-effect waves-light btn-large color-back">Ver</a>
-                  <a class="waves-effect waves-light btn-large color-back">Editar</a>
-            </div>
-        </div>
+
+        {% endfor %}
+
 
         <div class="ver-mas">
             <a href="#">
@@ -97,7 +74,7 @@
             </a>
 
         </div>
-        
+
     </div>
 
     
