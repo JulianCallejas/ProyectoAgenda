@@ -13,19 +13,36 @@ def cargaUsuario(db, user):
     return data
 
 
-def verificaNumeroId():
-    return True
+def verificaNumeroId(db, numid):
+    cursor=db.connection.cursor()
+    sql = """CALL SP_SelectIdEmpleado ('{}')""".format(numid)
+    cursor.execute(sql)
+    data = cursor.fetchall()
+    return data
+    
 
 
-
-def verificarLlavesPrincipales(db, user):
+def verificarLlavesPrincipales(db, nusuario):
     error = False
-    if cargaUsuario(db, user.usuario):
+    if cargaUsuario(db, nusuario.usuario):
         error = True
         flash("Usuario ya existe")
-        return error 
-    if verificaNumeroId():
+        return error
+
+    if verificaNumeroId(db, nusuario.id_persona):
         error = True
+        flash("Numero de identificacion ya existe")
+        return error
+
+    if len(nusuario.contrasena)<4:
+        error = True
+        flash("la contraseña debe tener al menos 4 digitos")
+        return error
+    
+    
+    
+    return error
+
 
 
 
@@ -34,18 +51,22 @@ def crearUsuario(db, logged_user, nusuario):
         try:
             cursor=db.connection.cursor()
             hcontrasena = Contrasena.gen_password(nusuario.contrasena)
-            print(hcontrasena )
             sql = """CALL SP_CreateUser('{}','{}','{}', {})""".format(nusuario.usuario,nusuario.email,hcontrasena, False)
             cursor.execute(sql)
             db.connection.commit()
+            print(nusuario.id_persona, nusuario.usuario, nusuario.nombres, nusuario.apellidos, nusuario.cargo)
+            sql = """CALL SP_CreateEmpleados('{}','{}','{}', '{}', '{}')""".format(nusuario.id_persona, nusuario.usuario, nusuario.nombres, nusuario.apellidos, nusuario.cargo)
+            cursor.execute(sql)
+            db.connection.commit()
+            
             cursor.close()
             return True
 
-        except :
-            return False
+        except Exception:
+            return Exception
         
-    else:
-        return "Datos incompletos"
+    #else:
+        #return "Datos incompletos"
 
 
 
@@ -66,19 +87,24 @@ class agregaUsuarioController():
             error = False
             usuario = request.form['fusuario']
             contrasena = request.form['fcontrasena']
+            contrasena2 = request.form['fcontrasena2']
             numeroid = request.form['fnumeroid']
             nombre = request.form['fnombre']
             apellido = request.form['fapellido']
             email = request.form['femail']
             cargo = request.form['fcargo']
             nusuario = Persona(0, numeroid, nombre, apellido, email, usuario, contrasena, 0, cargo)
+            if contrasena != contrasena2:
+                error = True
+                flash("Las contraseñas no coinciden")
+                return render_template('Ususarios.html', usuario = nusuario, error = error, agrega = True)
             error = verificarLlavesPrincipales(db, nusuario)
-                
-                
-            #guardar = crearUsuario(db, logged_user, nusuario)
-            print(error)
-            flash("Usuario guardado con exito")
-            return render_template('Ususarios.html', usuario = "", agrega = True)
+            error = not (crearUsuario(db, logged_user, nusuario))
+            if error:
+                return render_template('Ususarios.html', usuario = nusuario, error = error, agrega = True)
+            else:
+                flash("Usuario guardado con exito")
+                return render_template('Ususarios.html', usuario = nusuario, error = error, agrega = True)
 
         else:
             return render_template('Ususarios.html', usuario = "", agrega = True)

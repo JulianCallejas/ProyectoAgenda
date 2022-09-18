@@ -59,6 +59,15 @@ body{
     text-align: center;
 }
 
+
+.mensaje-error {
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px 1px #E16666 inset;
+    font-size: 18px;
+    text-align: center;
+}
+
+
 .btn-floating {
     float: left;
     margin: 15px;
