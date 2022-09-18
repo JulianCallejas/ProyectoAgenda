@@ -5,47 +5,6 @@ from model.persona import Persona
 from controller.manejoPassword import Contrasena
 
 
-def cargaUsuario(db, user):
-    cursor=db.connection.cursor()
-    sql = """CALL SP_UserData ('{}')""".format(user)
-    cursor.execute(sql)
-    data = cursor.fetchall()
-    return data
-
-
-def verificaNumeroId(db, numid):
-    cursor=db.connection.cursor()
-    sql = """CALL SP_SelectIdEmpleado ('{}')""".format(numid)
-    cursor.execute(sql)
-    data = cursor.fetchall()
-    return data
-    
-
-
-def verificarLlavesPrincipales(db, nusuario):
-    error = False
-    if cargaUsuario(db, nusuario.usuario):
-        error = True
-        flash("Usuario ya existe")
-        return error
-
-    if verificaNumeroId(db, nusuario.id_persona):
-        error = True
-        flash("Numero de identificacion ya existe")
-        return error
-
-    if len(nusuario.contrasena)<4:
-        error = True
-        flash("la contraseña debe tener al menos 4 digitos")
-        return error
-    
-    
-    
-    return error
-
-
-
-
 def crearUsuario(db, logged_user, nusuario):
     if nusuario.comprobarCamposCrearUsuario():
         try:
@@ -53,38 +12,50 @@ def crearUsuario(db, logged_user, nusuario):
             hcontrasena = Contrasena.gen_password(nusuario.contrasena)
             sql = """CALL SP_CreateUser('{}','{}','{}', {})""".format(nusuario.usuario,nusuario.email,hcontrasena, False)
             cursor.execute(sql)
-            db.connection.commit()
+            #db.connection.commit()
             print(nusuario.id_persona, nusuario.usuario, nusuario.nombres, nusuario.apellidos, nusuario.cargo)
             sql = """CALL SP_CreateEmpleados('{}','{}','{}', '{}', '{}')""".format(nusuario.id_persona, nusuario.usuario, nusuario.nombres, nusuario.apellidos, nusuario.cargo)
             cursor.execute(sql)
-            db.connection.commit()
-            
-            cursor.close()
-            return True
 
-        except Exception:
-            return Exception
-        
-    #else:
-        #return "Datos incompletos"
+        except Exception as ex:
+            err = 0
+            err = "Email ya existe" if str(ex).find("Email_UNIQUE")!= -1 else err
+            err = "Numero de identificacion ya existe" if str(ex).find("empleados.PRIMARY")!= -1 else err
+            err = "Usuario ya existe" if str(ex).find("Usuario_UNIQUE")!= -1 else err
+            err = str(ex) if err == 0 else err
+            flash("Error: " + err)
+            return False
 
+        db.connection.commit()
+        return True
 
+    else:
+        flash("Los campos con ** son obligatorios")
+        return False
 
-class editaUsuarioController():
-    @classmethod
-    def renderUsuario(rq, db, logged_user, user):
-        #data = cargaUsuario(db, logged_user, user)
-        data = 0
-        if data != ():
-            return render_template('Ususarios.html', usuario = data)
+    
+
+def cargaUsuario(db, user):
+    try:
+        cursor=db.connection.cursor()
+        sql = """CALL SP_UserData ('{}')""".format(user)
+        cursor.execute(sql)
+        row = cursor.fetchone()
+        if row != None : 
+            eusuario = Persona(row[0], row[5], row[6], row[7], row[3], row[1],"",row[4],row[8])
+            return eusuario
         else:
-            return redirect(url_for('dashBoard'))
+            return None 
+
+    except Exception as ex:
+        raise Exception(ex)   
+
 
 class agregaUsuarioController():
     @classmethod
     def renderAgregaUsuario(rq, db, logged_user):
+        error = False
         if request.method == 'POST':
-            error = False
             usuario = request.form['fusuario']
             contrasena = request.form['fcontrasena']
             contrasena2 = request.form['fcontrasena2']
@@ -96,10 +67,11 @@ class agregaUsuarioController():
             nusuario = Persona(0, numeroid, nombre, apellido, email, usuario, contrasena, 0, cargo)
             if contrasena != contrasena2:
                 error = True
-                flash("Las contraseñas no coinciden")
+                flash("La contraseña no coincide")
                 return render_template('Ususarios.html', usuario = nusuario, error = error, agrega = True)
-            error = verificarLlavesPrincipales(db, nusuario)
-            error = not (crearUsuario(db, logged_user, nusuario))
+            if not (error):
+                print("guardando")
+                error = not (crearUsuario(db, logged_user, nusuario))
             if error:
                 return render_template('Ususarios.html', usuario = nusuario, error = error, agrega = True)
             else:
@@ -107,5 +79,40 @@ class agregaUsuarioController():
                 return render_template('Ususarios.html', usuario = nusuario, error = error, agrega = True)
 
         else:
-            return render_template('Ususarios.html', usuario = "", agrega = True)
+            return render_template('Ususarios.html', usuario = "", error = False, agrega = True)
+     
+
+class editaUsuarioController():
+    @classmethod
+    def renderEditaUsuario(rq, db, logged_user, user):
+        error = False
+        if request.method == 'POST':
+            usuario = request.form['fusuario']
+            contrasena = request.form['fcontrasena']
+            contrasena2 = request.form['fcontrasena2']
+            numeroid = request.form['fnumeroid']
+            nombre = request.form['fnombre']
+            apellido = request.form['fapellido']
+            email = request.form['femail']
+            cargo = request.form['fcargo']
+            eusuario = Persona(0, numeroid, nombre, apellido, email, usuario, contrasena, 0, cargo)
+            if contrasena != contrasena2:
+                error = True
+                flash("La contraseña no coincide")
+                return render_template('Ususarios.html', usuario = eusuario, error = error, agrega = False)
+            if not (error):
+                print("guardando")
+                error = not (crearUsuario(db, logged_user, eusuario))
+            if error:
+                return render_template('Ususarios.html', usuario = eusuario, error = error, agrega = False)
+            else:
+                flash("Usuario guardado con exito")
+                return render_template('Ususarios.html', usuario = eusuario, error = error, agrega = False)
+
+        else:
         
+            eusuario = cargaUsuario(db, user)
+            if eusuario != ():
+                return render_template('Ususarios.html', usuario = eusuario, error = False, agrega = False)
+            else:
+                return redirect(url_for('inicio'))

@@ -104,11 +104,11 @@ def agregaUsuario():
     else:
         return inicio()
 
-@app.route('/edita-usuario/<string:user>')
+@app.route('/edita-usuario/<string:user>', methods=['GET', 'POST'])
 @login_required        
 def editaUsuario(user):
     global logged_user
-    accion = editaUsuarioController.renderUsuario(db, logged_user, user)
+    accion = editaUsuarioController.renderEditaUsuario(db, logged_user, user)
     return accion
 
 

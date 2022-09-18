@@ -252,7 +252,7 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
     '''   
     
     def comprobarCamposCrearUsuario(self)->bool: 
-        return True if (self.__id_persona and self.__usuario and self.__contrasena) else False
+        return True if (self.__id_persona and self.__usuario and self.__contrasena and self.__email) else False
     
 
 
