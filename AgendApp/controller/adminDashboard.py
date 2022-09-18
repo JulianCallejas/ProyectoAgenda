@@ -29,7 +29,7 @@ class SettingsController():
                 return render_template('admin-dashboard.html', usuarios = data, pagina = (pagina,len(data)), filtro = filtro)
             else:
                 data = cargarUsuarios(db)
-                return render_template('admin-dashboard.html', usuarios = data, pagina = (pagina,len(data)), filtro = NULL)
+                return render_template('admin-dashboard.html', usuarios = data, pagina = (pagina,len(data)), filtro = "")
         else:
             flash("Debe ingresar como Administrador")
             return render_template('Login.html')

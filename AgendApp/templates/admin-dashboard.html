@@ -30,7 +30,7 @@
             <div class="opciones">
                 <a class="waves-effect waves-light btn-large color-back"  href="{{ url_for('inicio') }}">Inicio</a>
                 <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('agregaUsuario') }}">Agregar</a>
-                <a class="waves-effect waves-light btn-large color-back">usuario</a>
+                <a class="waves-effect waves-light btn-large color-back" href="/edita-usuario/{{current_user.usuario}}">usuario</a>
                 <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('logout') }}">Cerrar</a>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input style="width: 180px; align-items: center;"
                        id="searh_user" type="text" class="validate"
-                       placeholder="Busar Usuario" name="Busar_Usuario">
+                       placeholder="Busar Usuario" name="Busar_Usuario" value="{{filtro}}">
                 <button class="btn-floating btn-large waves-effect waves-light color-back" type="submit">
                     <i class="material-icons"><span class="material-symbols-outlined">search</span></i>
                 </button>
@@ -51,39 +51,67 @@
     
     <div class="contenedor">
         <div class="filter"></div>
-        {% for nu in range(pagina[0]*3) %}
-        {% if pagina[1] > nu %}
-        <div class="caja" id="{{nu}}">
-            <h3>{{  usuarios[nu].1 }}</h3>
-            <div>
-                <ul>
-                    <li>Nombre: {{  usuarios[nu].3 }}</li>
-                    <li>Apellido: {{  usuarios[nu].4 }}</li>
-                    <li>Email: {{  usuarios[nu].6 }}</li>
-                    <li>Cargo: {{  usuarios[nu].5 }}</li>
-                </ul>
-                <a class="waves-effect waves-light btn-large color-back" href="/dashBoard/{{usuarios[nu].1}}">Ver agenda</a>
-                <a class="waves-effect waves-light btn-large color-back" href="/edita-usuario/{{usuarios[nu].1}}">Editar</a>
+
+        {% if filtro %}
+
+            {% for nu in range(pagina[1]) %}
+                {% if pagina[1] > nu %}
+                    <div class="caja" id="{{nu}}">
+                        <h3>{{  usuarios[nu].1 }}</h3>
+                        <div>
+                            <ul>
+                                <li>Nombre: {{  usuarios[nu].3 }}</li>
+                                <li>Apellido: {{  usuarios[nu].4 }}</li>
+                                <li>Email: {{  usuarios[nu].6 }}</li>
+                                <li>Cargo: {{  usuarios[nu].5 }}</li>
+                            </ul>
+                            <a class="waves-effect waves-light btn-large color-back" href="/dashBoard/{{usuarios[nu].1}}">Ver agenda</a>
+                            <a class="waves-effect waves-light btn-large color-back" href="/edita-usuario/{{usuarios[nu].1}}">Editar</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="ver-mas">
+                <a href="#">
+                    <span class="material-symbols-outlined">
+                        expand_less
+                    </span>
+                </a>
             </div>
-        </div>
+
+        {% else %}
+
+            {% for nu in range(pagina[0]*3) %}
+                {% if pagina[1] > nu %}
+                    <div class="caja" id="{{nu}}">
+                        <h3>{{  usuarios[nu].1 }}</h3>
+                        <div>
+                            <ul>
+                                <li>Nombre: {{  usuarios[nu].3 }}</li>
+                                <li>Apellido: {{  usuarios[nu].4 }}</li>
+                                <li>Email: {{  usuarios[nu].6 }}</li>
+                                <li>Cargo: {{  usuarios[nu].5 }}</li>
+                            </ul>
+                            <a class="waves-effect waves-light btn-large color-back" href="/dashBoard/{{usuarios[nu].1}}">Ver agenda</a>
+                            <a class="waves-effect waves-light btn-large color-back" href="/edita-usuario/{{usuarios[nu].1}}">Editar</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="ver-mas">
+                <a href="/admin-dashboard/{{pagina[0]+1}}#{{pagina[0]*3}}">
+                    <span class="material-symbols-outlined">
+                        expand_more
+                    </span>
+                </a>
+                <a href="#">
+                    <span class="material-symbols-outlined">
+                        expand_less
+                    </span>
+                </a>
+            </div>
         {% endif %}
-        {% endfor %}
-
-        <div class="ver-mas">
-            <a href="/admin-dashboard/{{pagina[0]+1}}#{{pagina[0]*3}}">
-                <span class="material-symbols-outlined">
-                    expand_more
-                </span>
-            </a>
-            <a href="#">
-                <span class="material-symbols-outlined">
-                    expand_less
-                </span>
-            </a>
-        </div>
     </div>
-
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
