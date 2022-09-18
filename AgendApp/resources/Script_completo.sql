@@ -475,7 +475,7 @@ UNLOCK TABLES;
 DELIMITER ;;
 CREATE PROCEDURE `SP_CreateEmpleados`(IN p_Id_Empleado varchar(12), p_Usuario varchar(15), p_Nombre varchar(45), p_Apellido varchar(45), p_Cargo varchar(45))
 BEGIN
-    insert into agendas(Id_Empleado, Usuario, Nombre, Apellido, Cargo)
+    insert into empleados(Id_Empleado, Usuario, Nombre, Apellido, Cargo)
     values (p_Id_Empleado, p_Usuario, p_Nombre, p_Apellido, p_Cargo);
 END ;;
 DELIMITER ;
