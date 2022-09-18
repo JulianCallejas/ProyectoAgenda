@@ -5,60 +5,116 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Document</title>
+    <title>Admin-Usuario</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="../static/css/agregar.css">
 </head>
 <body>
+    
+    {% if agrega %}
+
     <div class="contenedor">
         <div class="caja-descripcion">
-            <form class="col s12">
+            <form class="col s12" action="/agrega-usuario" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="textarea-descripcion">
-                    <div class="input-field col s6">
-                        <input id="input_text" type="text" data-length="50" value="Nombre" disabled="disabled">
-                        
-                      </div>
+                    <h4 style="align-content:center">Nuevo usuario</h4>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <br />
+                    {% for message in messages %}
+                    <div class="mensaje-exito">
+                        <div class="alert alert-primary alert-dismissible" role="alert">
+                            <strong>{{ message }}</strong>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
                 </div>
                 <div class="textarea-descripcion">
                     <ul>
-                        <li>Nombre: <input id="input_text" type="text">
-                                    
+                        <li>
+                            <input id="fusuario" name="fusuario" type="text" placeholder="Usuario">
                         </li>
-                        <li>Apellido:  <input id="input_text" type="text">
-                                    
+                        <li>
+                            <input id="fcontrasena" name="fcontrasena" type="text" placeholder="Contraseña">
                         </li>
-                        <li>Email:  <input id="input_text" id="email_inline" type="email" class="validate">
-                            
+                        <li>
+                            <input id="fnumeroid" name="fnumeroid" type="text" placeholder="Numero de identificacion">
                         </li>
-                        <li>Cargo:  <input id="input_text" type="text">
-                            
+                        <li>
+                            <input id="fnombre" name="fnombre" type="text" placeholder="Nombres">
                         </li>
-                        <li>Contraseña:  <input id="input_text" type="text">
-                            
+                        <li>
+                            <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos">
                         </li>
-                      </ul>
+                        <li>
+                            <input id="femail" name="femail" type="email" class="validate" placeholder="Email">
+                        </li>
+                        <li>
+                            <input id="fcargo" name="fcargo" type="text" placeholder="Cargo">
+                        </li>
+                    </ul>
                 </div>
+                <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
+                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Cancelar</a>
             </form>
-
-            
-        </div>
-
-        <div class="navbtn">
-            <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
-            <div class="opciones">
-                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Inicio</a>
-                <a class="waves-effect waves-light btn-large color-back">Guardar</a>
-                <a class="waves-effect waves-light btn-large color-back">Eleminar</a>
-                
-                
-                
-            </div>
-
-
         </div>
     </div>
+        
 
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        {% else %}
+
+        <div class="contenedor">
+            <div class="caja-descripcion">
+                <form class="col s12" action="/admin-dashboard" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="textarea-descripcion">
+                        <div class="input-field col s6">
+                            <input id="input_text" type="text" data-length="50" value="Datos Nuevo Usuario" disabled="disabled">
+                            <h4>Nuevo usuario</h4><br />
+                        </div>
+                    </div>
+                    <div class="textarea-descripcion">
+                        <ul>
+                            <li>
+                                Usuario: <input id="fusuario" name="fusuario" type="text">
+
+                            </li>
+                            <li>
+                                Contraseña:  <input id="fcontrasena" name="fcontrasena" type="text">
+
+                            </li>
+                            <li>
+                                Nombre: <input id="fnombre" name="fnombre" type="text">
+
+                            </li>
+                            <li>
+                                Apellido:  <input id="fapellido" name="fapellido" type="text">
+
+                            </li>
+                            <li>
+                                Email:  <input id="femail" name="femail" type="email" class="validate">
+
+                            </li>
+                            <li>
+                                Cargo:  <input id="fcargo" name="fcargo" type="text">
+
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

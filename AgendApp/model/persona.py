@@ -1,5 +1,6 @@
 from asyncio.windows_events import NULL
 from os import get_terminal_size
+from xmlrpc.client import Boolean, boolean
 from model.agenda import Agenda
 from flask_login import UserMixin
 
@@ -250,6 +251,12 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
     Métodos
     '''   
     
+    def comprobarCamposCrearUsuario(self)->bool: 
+        return True if (self.__id_persona and self.__nombres and self.__apellidos and self.__email and self.__usuario and self.__contrasena and self.__cargo) else False
+    
+
+
+
     def log_in():
         """Permite el ingreso de la persona al sistema
         """

@@ -19,7 +19,7 @@ from model.tarea import Tarea
 from controller.login import LoginController
 from controller.dashBoard import DashBoardController
 from controller.adminDashboard import SettingsController
-from controller.administraUsuario import editaUsuarioController, agregaUsuarioController
+from controller.adminUsuario import editaUsuarioController, agregaUsuarioController
 
 
 app = Flask(__name__)  # Inicializamos flask con la constate name
@@ -93,21 +93,16 @@ def adminDashboardPaginas(pagina):
     accion = SettingsController.loginController(db, logged_user, pagina)
     return accion
   
-@app.route('/admin-dashboard/<int:pagina>/<string:filtro>', methods=['GET', 'POST'])
-@login_required        
-def adminDashboardFiltro(pagina, filtro):
-    global logged_user
-    accion = SettingsController.loginControllerFiltro(db, logged_user, pagina, filtro)
-    return accion
 
-
-@app.route('/agrega-usuario')
+@app.route('/agrega-usuario', methods=['GET', 'POST'])
 @login_required        
 def agregaUsuario():
     global logged_user
-    accion = agregaUsuarioController.renderUsuario(db, logged_user)
-    return accion
-
+    if logged_user.esAdmin:
+          accion = agregaUsuarioController.renderAgregaUsuario(db, logged_user)
+          return accion
+    else:
+        return inicio()
 
 @app.route('/edita-usuario/<string:user>')
 @login_required        
@@ -147,3 +142,4 @@ if __name__ == '__main__':
     app.register_error_handler(401, status_401)
     app.register_error_handler(404, status_404)
     app.run()
+    
