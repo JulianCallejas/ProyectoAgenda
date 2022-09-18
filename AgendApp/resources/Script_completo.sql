@@ -779,6 +779,7 @@ BEGIN
 END ;;
 DELIMITER ;
 
+
 DELIMITER ;;
 CREATE PROCEDURE `SP_UpdateTareaDeAdministrador`(
 	IN p_Id_Tarea int, 
@@ -797,6 +798,18 @@ BEGIN
     WHERE Id_Tarea = p_Id_Tarea;
 END ;;
 DELIMITER ;
+
+
+DELIMITER ;;
+CREATE PROCEDURE `SP_SelectIdEmpleado`(
+	IN p_Id_Empleado varchar(45))
+BEGIN
+    SELECT Id_Empleado
+    FROM empleados
+    WHERE Id_Empleado = p_Id_Empleado;
+END ;;
+DELIMITER ;
+
 
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
