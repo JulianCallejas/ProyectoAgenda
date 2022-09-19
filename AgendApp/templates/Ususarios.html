@@ -4,146 +4,142 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Admin-Usuario</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="../static/css/agregar.css">
 </head>
 <body>
-    
-    {% if agrega %}
-
-    <div class="contenedor">
-        <div class="caja-descripcion">
-            <form class="col s12" action="/agrega-usuario" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <div class="textarea-descripcion">
-                    <h4 style="align-content:center">Nuevo usuario</h4>
-                    {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                    <br />
-                    {% for message in messages %}
-                    {% if error %}
-                    <div class="mensaje-error">
-                        <div class="alert alert-primary alert-dismissible" role="alert">
-                            <strong>{{ message }}</strong>
+        {% if agrega %}
+        <div class="contenedor">
+            <div class="caja-descripcion">
+                <form class="col s12" action="/agrega-usuario" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="textarea-descripcion">
+                        <h4 style="align-content:center">Nuevo usuario</h4>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <br />
+                        {% for message in messages %}
+                        {% if error %}
+                        <div class="mensaje-error">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>{{ message }}</strong>
+                            </div>
                         </div>
-                    </div>
-                    {% else %}
-                    <div class="mensaje-exito">
-                        <div class="alert alert-primary alert-dismissible" role="alert">
-                            <strong>{{ message }}</strong>
+                        {% else %}
+                        <div class="mensaje-exito">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>{{ message }}</strong>
+                            </div>
                         </div>
-                    </div>
-                    {% endif %}
+                        {% endif %}
 
-                    {% endfor %}
-                    {% endif %}
-                    {% endwith %}
-                </div>
-                <div class="textarea-descripcion">
-                    <ul>
-                        <li>
-                            <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}">
-                        </li>
-                        <li>
-                            <input id="fcontrasena" name="fcontrasena" type="password" placeholder="**Contraseña">
-                        </li>
-                        <li>
-                            <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="**Repita Contraseña">
-                        </li>
-                        <li>
-                            <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}">
-                        </li>
-                        <li>
-                            <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}">
-                        </li>
-                        <li>
-                            <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}">
-                        </li>
-                        <li>
-                            <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}">
-                        </li>
-                        <li>
-                            <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}">
-                        </li>
-                    </ul>
-                    <p>**Campos obligatorios</p>
-                </div>
-                <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
-                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('agregaUsuario') }}">+ Nuevo</a>
-                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Regresar</a>
-            </form>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="textarea-descripcion">
+                        <ul>
+                            <li>
+                                <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}">
+                            </li>
+                            <li>
+                                <input id="fcontrasena" name="fcontrasena" type="password" placeholder="**Contraseña">
+                            </li>
+                            <li>
+                                <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="**Repita Contraseña">
+                            </li>
+                            <li>
+                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}">
+                            </li>
+                            <li>
+                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}">
+                            </li>
+                            <li>
+                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}">
+                            </li>
+                            <li>
+                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}">
+                            </li>
+                            <li>
+                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}">
+                            </li>
+                        </ul>
+                        <p>**Campos obligatorios</p>
+                    </div>
+                    <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
+                    <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('agregaUsuario') }}">+ Nuevo</a>
+                    <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Regresar</a>
+                </form>
+            </div>
         </div>
-    </div>
-        
-    {% else %}
 
-    <div class="contenedor">
-        <div class="caja-descripcion">
-            <form class="col s12" action="/edita-usuario/{{usuario.usuario}}" method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <div class="textarea-descripcion">
-                    <h4 style="align-content:center">Edita usuario</h4>
-                    {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                    <br />
-                    {% for message in messages %}
-                    {% if error %}
-                    <div class="mensaje-error">
-                        <div class="alert alert-primary alert-dismissible" role="alert">
-                            <strong>{{ message }}</strong>
+        {% else %}
+
+        <div class="contenedor">
+            <div class="caja-descripcion">
+                <form class="col s12" action="/edita-usuario/{{usuario.usuario}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="textarea-descripcion">
+                        <h4 style="align-content:center">Edita usuario</h4>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <br />
+                        {% for message in messages %}
+                        {% if error %}
+                        <div class="mensaje-error">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>{{ message }}</strong>
+                            </div>
                         </div>
-                    </div>
-                    {% else %}
-                    <div class="mensaje-exito">
-                        <div class="alert alert-primary alert-dismissible" role="alert">
-                            <strong>{{ message }}</strong>
+                        {% else %}
+                        <div class="mensaje-exito">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>{{ message }}</strong>
+                            </div>
                         </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
                     </div>
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-                    {% endwith %}
-                </div>
-                <div class="textarea-descripcion">
-                    <ul>
-                        <li>
-                            <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}" disabled="disabled" style="color: #000 !important; font-weight: bold; ">
-                        </li>
-                        <li>
-                            <input id="fcontrasena" name="fcontrasena" type="password" placeholder="Contraseña">
-                        </li>
-                        <li>
-                            <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="Repita Contraseña">
-                        </li>
-                        <li>
-                            <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}">
-                        </li>
-                        <li>
-                            <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}">
-                        </li>
-                        <li>
-                            <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}">
-                        </li>
-                        <li>
-                            <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}">
-                        </li>
-                        <li>
-                            <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}">
-                        </li>
-                    </ul>
-                    <p>**Campos obligatorios</p>
-                </div>
-                <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
-                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('agregaUsuario') }}">Eliminar</a>
-                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Regresar</a>
-            </form>
+                    <div class="textarea-descripcion">
+                        <ul>
+                            <li>
+                                <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}" disabled="disabled" style="color: #000 !important; font-weight: bold; ">
+                            </li>
+                            <li>
+                                <input id="fcontrasena" name="fcontrasena" type="password" placeholder="Contraseña">
+                            </li>
+                            <li>
+                                <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="Repita Contraseña">
+                            </li>
+                            <li>
+                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}">
+                            </li>
+                            <li>
+                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}">
+                            </li>
+                            <li>
+                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}">
+                            </li>
+                            <li>
+                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}">
+                            </li>
+                            <li>
+                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}">
+                            </li>
+                        </ul>
+                        <p>**Campos obligatorios</p>
+                    </div>
+                    <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
+                    <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('agregaUsuario') }}">Eliminar</a>
+                    <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Regresar</a>
+                </form>
+            </div>
         </div>
-    </div>
-
-    {% endif %}
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        {% endif %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

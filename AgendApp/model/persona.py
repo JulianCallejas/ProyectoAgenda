@@ -227,6 +227,17 @@ class Persona(UserMixin): #clase Persona hereda de User Mixin:
         """
         self.__contrasena = contrasena
     
+
+    @cargo.setter
+    def cargo(self, cargo:str)->None:
+        """Actualiza el cargo de la persona
+
+        Args:
+            cargo (str): cargo de la persona
+        """
+        self.__cargo = cargo
+
+
     @tareas.setter
     def tareas(self, tareas:list)->None:
         """Actualiza las tareas del usuario
