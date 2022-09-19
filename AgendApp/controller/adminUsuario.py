@@ -5,7 +5,7 @@ from model.persona import Persona
 from controller.manejoPassword import Contrasena
 
 
-def crearUsuario(db, logged_user, nusuario):
+def crearUsuario(db, nusuario):
     if nusuario.comprobarCamposCrearUsuario():
         try:
             cursor=db.connection.cursor()
@@ -32,13 +32,13 @@ def crearUsuario(db, logged_user, nusuario):
         return False
 
 
-def editarUsuario(db, logged_user, eusuario):
+def editarUsuario(db, eusuario):
     if eusuario.comprobarCamposCrearUsuario():
         try:
             cursor=db.connection.cursor()
             sql = """CALL SP_UpdateUser('{}','{}','{}', {})""".format(eusuario.usuario,eusuario.email,eusuario.contrasena, eusuario.esAdmin)
             cursor.execute(sql)
-            sql = """CALL SP_CreateEmpleados('{}','{}','{}', '{}', '{}')""".format(nusuario.id_persona, nusuario.usuario, nusuario.nombres, nusuario.apellidos, nusuario.cargo)
+            sql = """CALL SP_UpdateEmpleados('{}','{}','{}', '{}', '{}')""".format(eusuario.id_persona, eusuario.usuario, eusuario.nombres, eusuario.apellidos, eusuario.cargo)
             cursor.execute(sql)
 
         except Exception as ex:
@@ -93,7 +93,7 @@ class agregaUsuarioController():
                 flash("La contraseña no coincide")
                 return render_template('Ususarios.html', usuario = nusuario, error = error, agrega = True)
             if not (error):
-                error = not (crearUsuario(db, logged_user, nusuario))
+                error = not (crearUsuario(db, nusuario))
             if error:
                 return render_template('Ususarios.html', usuario = nusuario, error = error, agrega = True)
             else:
@@ -126,7 +126,7 @@ class editaUsuarioController():
             
 
             if not (error):
-                error = not (editarUsuario(db, logged_user, eusuario))
+                error = not (editarUsuario(db, eusuario))
             if error:
                 return render_template('Ususarios.html', usuario = eusuario, error = error, agrega = False)
             else:
