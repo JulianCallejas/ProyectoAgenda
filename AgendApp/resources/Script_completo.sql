@@ -31,7 +31,7 @@ CREATE TABLE `agendas` (
   `Usuario` varchar(15) NOT NULL,
   PRIMARY KEY (`Id_Agenda`),
   UNIQUE KEY `Usuario_UNIQUE` (`Usuario`),
-  CONSTRAINT `Usuario` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Usuario`)
+  CONSTRAINT `Usuario` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Usuario`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -84,7 +84,7 @@ CREATE TABLE `empleados` (
   PRIMARY KEY (`Id_Empleado`),
   UNIQUE KEY `Usuario_UNIQUE` (`Usuario`),
   UNIQUE KEY `Id_Empleado_UNIQUE` (`Id_Empleado`),
-  CONSTRAINT `Usuario1` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Usuario`)
+  CONSTRAINT `Usuario1` FOREIGN KEY (`Usuario`) REFERENCES `usuarios` (`Usuario`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -146,7 +146,7 @@ CREATE TABLE `tareas` (
   PRIMARY KEY (`Id_Tarea`,`Id_Agenda1`),
   UNIQUE KEY `Id_tarea_UNIQUE` (`Id_Tarea`),
   KEY `fk_Tareas_Agendas1_idx` (`Id_Agenda1`),
-  CONSTRAINT `fk_Tareas_Agendas1` FOREIGN KEY (`Id_Agenda1`) REFERENCES `agendas` (`Id_Agenda`)
+  CONSTRAINT `fk_Tareas_Agendas1` FOREIGN KEY (`Id_Agenda1`) REFERENCES `agendas` (`Id_Agenda`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -601,10 +601,10 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `SP_DeleteUser`(IN p_id int)
+CREATE PROCEDURE `SP_DeleteUser`(IN p_Usuario varchar(15))
 BEGIN
     DELETE FROM usuarios
-    WHERE id = p_id;
+    WHERE Usuario = p_Usuario;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -748,9 +748,9 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `SP_UpdateEmpleados`(IN p_Id_Empleado varchar(12), p_Usuario varchar(15), p_Nombre varchar(45), p_Apellido varchar(45), p_Cargo varchar(45))
 BEGIN
-    UPDATE agendas
-    SET Usuario = p_Usuario, Nombre = p_Nombre, Apellido = p_Apellido, Cargo = p_Cargo
-    WHERE Id_Empleado = p_Id_Empleado;
+    UPDATE empleados
+    SET Id_Empleado = p_Id_Empleado, Nombre = p_Nombre, Apellido = p_Apellido, Cargo = p_Cargo
+    WHERE  Usuario = p_Usuario;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
