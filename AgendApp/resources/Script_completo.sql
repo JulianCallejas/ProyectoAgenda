@@ -825,11 +825,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `SP_UpdateUser`(IN p_id int, p_Usuario varchar(15), p_Email varchar(45), p_Contrasena char(102), p_Administrador bit(1))
+CREATE PROCEDURE `SP_UpdateUser`(IN p_Usuario varchar(15), p_Email varchar(45), p_Contrasena char(102), p_Administrador bit(1))
 BEGIN
     UPDATE usuarios
-    SET Usuario = p_Usuario, Email = p_Email, Contrasena = p_Contrasena, Administrador = p_Administrador
-    WHERE id = p_id;
+    SET Email = p_Email, Contrasena = p_Contrasena, Administrador = p_Administrador
+    WHERE Usuario = p_Usuario;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
