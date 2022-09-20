@@ -4,61 +4,214 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Document</title>
+    <title>Admin-Usuario</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="../static/css/agregar.css">
 </head>
 <body>
-    <div class="contenedor">
-        <div class="caja-descripcion">
-            <form class="col s12">
-                <div class="textarea-descripcion">
-                    <div class="input-field col s6">
-                        <input id="input_text" type="text" data-length="50" value="Nombre" disabled="disabled">
-                        
-                      </div>
-                </div>
-                <div class="textarea-descripcion">
-                    <ul>
-                        <li>Nombre: <input id="input_text" type="text">
-                                    
-                        </li>
-                        <li>Apellido:  <input id="input_text" type="text">
-                                    
-                        </li>
-                        <li>Email:  <input id="input_text" id="email_inline" type="email" class="validate">
-                            
-                        </li>
-                        <li>Cargo:  <input id="input_text" type="text">
-                            
-                        </li>
-                        <li>Contraseña:  <input id="input_text" type="text">
-                            
-                        </li>
-                      </ul>
-                </div>
-            </form>
-
-            
-        </div>
-
-        <div class="navbtn">
-            <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
-            <div class="opciones">
-                <a class="waves-effect waves-light btn-large color-back">Inicio</a>
-                <a class="waves-effect waves-light btn-large color-back">Guardar</a>
-                <a class="waves-effect waves-light btn-large color-back">Eleminar</a>
-                
-                
-                
-            </div>
-
-
-        </div>
-    </div>
-
+    {% if elimina %}
     
+        <div class="contenedor">
+            <div class="caja-descripcion">
+                <form class="col s12" action="/elimina-usuario/{{usuario.usuario}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="textarea-descripcion">
+                        <h4 style="align-content:center">Eliminar usuario</h4>
+
+                        <div class="mensaje-alerta">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>
+                                    Se perderán todos los registros del usuario <br />
+                                    No se puede deshacer puede deshacer.<br />
+                                </strong>
+                            </div>
+                        </div>
+
+                        <button class="waves-effect waves-light btn-large color-back" type="submit">Confirma Eliminar</button>
+                        <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Regresar</a>
+
+                    </div>
+                    <div class="textarea-descripcion">
+                        <ul>
+                            <li>
+                                <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}" disabled="disabled" style="font-weight: bold; ">
+                            </li>
+                            <li>
+                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}" maxlength="45" required disabled="disabled">
+                            </li>
+                            <li>
+                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}" maxlength="12" required disabled="disabled">
+                            </li>
+                            <li>
+                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}" maxlength="45" disabled="disabled">
+                            </li>
+                            <li>
+                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}" maxlength="45" disabled="disabled">
+                            </li>
+                            <li>
+                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}" maxlength="45" disabled="disabled">
+                            </li>
+                        </ul>
+                    </div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <br />
+                    {% for message in messages %}
+                    {% if error %}
+                    <div class="mensaje-error">
+                        <div class="alert alert-primary alert-dismissible" role="alert">
+                            <strong>{{ message }}</strong>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="mensaje-exito">
+                        <div class="alert alert-primary alert-dismissible" role="alert">
+                            <strong>{{ message }}</strong>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </form>
+            </div>
+        </div>
+
+    {% else %}
+        {% if agrega %}
+        <div class="contenedor">
+            <div class="caja-descripcion">
+                <form class="col s12" action="/agrega-usuario" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="textarea-descripcion">
+                        <h4 style="align-content:center">Nuevo usuario</h4>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <br />
+                        {% for message in messages %}
+                        {% if error %}
+                        <div class="mensaje-error">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>{{ message }}</strong>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="mensaje-exito">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>{{ message }}</strong>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="textarea-descripcion">
+                        <ul>
+                            <li>
+                                <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}" maxlength="15" required>
+                            </li>
+                            <li>
+                                <input id="fcontrasena" name="fcontrasena" type="password" placeholder="**Contraseña" required minlength="4" maxlength="50">
+                            </li>
+                            <li>
+                                <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="**Repita Contraseña" required minlength="4" maxlength="50">
+                            </li>
+                            <li>
+                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}" maxlength="45" required>
+                            </li>
+                            <li>
+                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}" maxlength="12" required>
+                            </li>
+                            <li>
+                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}" maxlength="45">
+                            </li>
+                            <li>
+                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}" maxlength="45">
+                            </li>
+                            <li>
+                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}" maxlength="45">
+                            </li>
+                        </ul>
+                        <p>**Campos obligatorios</p>
+                    </div>
+                    <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
+                    <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('agregaUsuario') }}">+ Nuevo</a>
+                    <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Regresar</a>
+                </form>
+            </div>
+        </div>
+
+        {% else %}
+
+        <div class="contenedor">
+            <div class="caja-descripcion">
+                <form class="col s12" action="/edita-usuario/{{usuario.usuario}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="textarea-descripcion">
+                        <h4 style="align-content:center">Edita usuario</h4>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <br />
+                        {% for message in messages %}
+                        {% if error %}
+                        <div class="mensaje-error">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>{{ message }}</strong>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="mensaje-exito">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>{{ message }}</strong>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="textarea-descripcion">
+                        <ul>
+                            <li>
+                                <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}" disabled="disabled" style="color: #000 !important; font-weight: bold; ">
+                            </li>
+                            <li>
+                                <input id="fcontrasena" name="fcontrasena" type="password" placeholder="Contraseña" minlength="4" maxlength="50">
+                            </li>
+                            <li>
+                                <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="Repita Contraseña" minlength="4" maxlength="50">
+                            </li>
+                            <li>
+                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}" maxlength="45" required>
+                            </li>
+                            <li>
+                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}" maxlength="12" required>
+                            </li>
+                            <li>
+                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}" maxlength="45">
+                            </li>
+                            <li>
+                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}" maxlength="45">
+                            </li>
+                            <li>
+                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}" maxlength="45">
+                            </li>
+                        </ul>
+                        <p>**Campos obligatorios</p>
+                    </div>
+                    <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
+                    {% if current_user.esAdmin %}
+                    <a class="waves-effect waves-light btn-large color-back" href="/elimina-usuario/{{usuario.usuario}}">Eliminar</a>
+                    {% endif %}
+                    <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Regresar</a>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

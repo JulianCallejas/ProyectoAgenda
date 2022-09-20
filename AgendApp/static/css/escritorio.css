@@ -94,14 +94,20 @@ body{
     }
 }
 
-.ver-mas{
-    margin-top: 15px;
+.ver-mas {
+    margin-top: 25px;
+    margin-bottom: 15px;
     animation-name: vermas;
     animation-duration: 1s;
     animation-iteration-count: infinite;
 }
 
-@keyframes vermas {
+    .ver-mas a {
+        margin-right: 20px;
+    }
+
+
+    @keyframes vermas {
     0%   {transform: translateY(0px);}
     25%  {transform: translateY(25px);}
     100% {transform: translateY(0px);}
@@ -126,6 +132,7 @@ body{
 }
 
 a {
+
     color: black !important;
     text-decoration: none;
 }

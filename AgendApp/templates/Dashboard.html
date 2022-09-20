@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Agendapp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="../static/css/escritorio.css">
@@ -15,7 +15,7 @@
         <div class="navbtn">
             <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
             <div class="opciones">
-                <a class="waves-effect waves-light btn-large color-back">Inicio</a>
+                <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Inicio</a>
                 <a class="waves-effect waves-light btn-large color-back">Agregar</a>
                 <a class="waves-effect waves-light btn-large color-back">usuario</a>
                 <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('logout') }}">Cerrar</a>
@@ -24,10 +24,10 @@
     </div>
 
 
-    {% if current_user.usuario == current_user.usuarioCon %}
-    <h1 style="text-align: center;">Tu Agenda</h1>
+    {% if current_user.usuario == user %}
+    <h1 style="text-align: center;">Tu Agendapp</h1>
     {% else %}
-    <h1 style="text-align: center;">Agenda de {{current_user.usuarioCon}}</h1>
+    <h1 style="text-align: center;">Agendapp de {{user}}</h1>
     {% endif %}
 
     <div class="contenedor">
@@ -57,6 +57,11 @@
             <a href="#">
                 <span class="material-symbols-outlined">
                     expand_more
+                </span>
+            </a>
+            <a href="#">
+                <span class="material-symbols-outlined">
+                    expand_less
                 </span>
             </a>
 
