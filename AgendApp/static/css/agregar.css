@@ -67,6 +67,14 @@ body{
     text-align: center;
 }
 
+.mensaje-alerta {
+    border-radius: 8px;
+    box-shadow: 1px 1px 4px 1px #AEA645 inset;
+    font-size: 18px;
+    text-align: center;
+    text-indent: 3px;
+}
+
 
 .btn-floating {
     float: left;

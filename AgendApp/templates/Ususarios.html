@@ -10,6 +10,75 @@
     <link rel="stylesheet" href="../static/css/agregar.css">
 </head>
 <body>
+    {% if elimina %}
+    
+        <div class="contenedor">
+            <div class="caja-descripcion">
+                <form class="col s12" action="/elimina-usuario/{{usuario.usuario}}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="textarea-descripcion">
+                        <h4 style="align-content:center">Eliminar usuario</h4>
+
+                        <div class="mensaje-alerta">
+                            <div class="alert alert-primary alert-dismissible" role="alert">
+                                <strong>
+                                    Se perderán todos los registros del usuario <br />
+                                    No se puede deshacer puede deshacer.<br />
+                                </strong>
+                            </div>
+                        </div>
+
+                        <button class="waves-effect waves-light btn-large color-back" type="submit">Confirma Eliminar</button>
+                        <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Regresar</a>
+
+                    </div>
+                    <div class="textarea-descripcion">
+                        <ul>
+                            <li>
+                                <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}" disabled="disabled" style="font-weight: bold; ">
+                            </li>
+                            <li>
+                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}" maxlength="45" required disabled="disabled">
+                            </li>
+                            <li>
+                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}" maxlength="12" required disabled="disabled">
+                            </li>
+                            <li>
+                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}" maxlength="45" disabled="disabled">
+                            </li>
+                            <li>
+                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}" maxlength="45" disabled="disabled">
+                            </li>
+                            <li>
+                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}" maxlength="45" disabled="disabled">
+                            </li>
+                        </ul>
+                    </div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <br />
+                    {% for message in messages %}
+                    {% if error %}
+                    <div class="mensaje-error">
+                        <div class="alert alert-primary alert-dismissible" role="alert">
+                            <strong>{{ message }}</strong>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="mensaje-exito">
+                        <div class="alert alert-primary alert-dismissible" role="alert">
+                            <strong>{{ message }}</strong>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </form>
+            </div>
+        </div>
+
+    {% else %}
         {% if agrega %}
         <div class="contenedor">
             <div class="caja-descripcion">
@@ -42,28 +111,28 @@
                     <div class="textarea-descripcion">
                         <ul>
                             <li>
-                                <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}">
+                                <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}" maxlength="15" required>
                             </li>
                             <li>
-                                <input id="fcontrasena" name="fcontrasena" type="password" placeholder="**Contraseña">
+                                <input id="fcontrasena" name="fcontrasena" type="password" placeholder="**Contraseña" required minlength="4" maxlength="50">
                             </li>
                             <li>
-                                <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="**Repita Contraseña">
+                                <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="**Repita Contraseña" required minlength="4" maxlength="50">
                             </li>
                             <li>
-                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}">
+                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}" maxlength="45" required>
                             </li>
                             <li>
-                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}">
+                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}" maxlength="12" required>
                             </li>
                             <li>
-                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}">
+                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}" maxlength="45">
                             </li>
                             <li>
-                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}">
+                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}" maxlength="45">
                             </li>
                             <li>
-                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}">
+                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}" maxlength="45">
                             </li>
                         </ul>
                         <p>**Campos obligatorios</p>
@@ -110,36 +179,39 @@
                                 <input id="fusuario" name="fusuario" type="text" placeholder="**Usuario" value="{{usuario.usuario}}" disabled="disabled" style="color: #000 !important; font-weight: bold; ">
                             </li>
                             <li>
-                                <input id="fcontrasena" name="fcontrasena" type="password" placeholder="Contraseña">
+                                <input id="fcontrasena" name="fcontrasena" type="password" placeholder="Contraseña" minlength="4" maxlength="50">
                             </li>
                             <li>
-                                <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="Repita Contraseña">
+                                <input id="fcontrasena2" name="fcontrasena2" type="password" placeholder="Repita Contraseña" minlength="4" maxlength="50">
                             </li>
                             <li>
-                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}">
+                                <input id="femail" name="femail" type="email" class="validate" placeholder="**Email" value="{{usuario.email}}" maxlength="45" required>
                             </li>
                             <li>
-                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}">
+                                <input id="fnumeroid" name="fnumeroid" type="text" placeholder="**Numero de identificacion" value="{{usuario.id_persona}}" maxlength="12" required>
                             </li>
                             <li>
-                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}">
+                                <input id="fnombre" name="fnombre" type="text" placeholder="Nombres" value="{{usuario.nombres}}" maxlength="45">
                             </li>
                             <li>
-                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}">
+                                <input id="fapellido" name="fapellido" type="text" placeholder="Apellidos" value="{{usuario.apellidos}}" maxlength="45">
                             </li>
                             <li>
-                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}">
+                                <input id="fcargo" name="fcargo" type="text" placeholder="Cargo" value="{{usuario.cargo}}" maxlength="45">
                             </li>
                         </ul>
                         <p>**Campos obligatorios</p>
                     </div>
                     <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
-                    <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('agregaUsuario') }}">Eliminar</a>
+                    {% if current_user.esAdmin %}
+                    <a class="waves-effect waves-light btn-large color-back" href="/elimina-usuario/{{usuario.usuario}}">Eliminar</a>
+                    {% endif %}
                     <a class="waves-effect waves-light btn-large color-back" href="{{ url_for('inicio') }}">Regresar</a>
                 </form>
             </div>
         </div>
         {% endif %}
+    {% endif %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

@@ -19,7 +19,7 @@ from model.tarea import Tarea
 from controller.login import LoginController
 from controller.dashBoard import DashBoardController
 from controller.adminDashboard import SettingsController
-from controller.adminUsuario import editaUsuarioController, agregaUsuarioController
+from controller.adminUsuario import administraUsuarioController
 
 
 app = Flask(__name__)  # Inicializamos flask con la constate name
@@ -99,7 +99,7 @@ def adminDashboardPaginas(pagina):
 def agregaUsuario():
     global logged_user
     if logged_user.esAdmin:
-          accion = agregaUsuarioController.renderAgregaUsuario(db, logged_user)
+          accion = administraUsuarioController.renderAgregaUsuario(db, logged_user)
           return accion
     else:
         return inicio()
@@ -108,7 +108,14 @@ def agregaUsuario():
 @login_required        
 def editaUsuario(user):
     global logged_user
-    accion = editaUsuarioController.renderEditaUsuario(db, logged_user, user)
+    accion = administraUsuarioController.renderEditaUsuario(db, logged_user, user)
+    return accion
+
+@app.route('/elimina-usuario/<string:user>', methods=['GET', 'POST'])
+@login_required        
+def eliminaUsuario(user):
+    global logged_user
+    accion = administraUsuarioController.renderEliminaUsuario(db, logged_user, user)
     return accion
 
 

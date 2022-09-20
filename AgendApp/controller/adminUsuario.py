@@ -58,6 +58,19 @@ def editarUsuario(db, eusuario):
         return False
 
 
+def eliminarUsuario(db, eusuario):
+        try:
+            cursor=db.connection.cursor()
+            sql = """CALL SP_DeleteUser('{}')""".format(eusuario.usuario)
+            cursor.execute(sql)
+        except Exception as ex:
+            flash("Error: " + err)
+            return False
+
+        db.connection.commit()
+        return True
+
+
 def cargaUsuario(db, user):
     try:
         cursor=db.connection.cursor()
@@ -74,7 +87,7 @@ def cargaUsuario(db, user):
         raise Exception(ex)   
 
 
-class agregaUsuarioController():
+class administraUsuarioController():
     @classmethod
     def renderAgregaUsuario(rq, db, logged_user):
         error = False
@@ -104,7 +117,6 @@ class agregaUsuarioController():
             return render_template('Ususarios.html', usuario = "", error = False, agrega = True)
      
 
-class editaUsuarioController():
     @classmethod
     def renderEditaUsuario(rq, db, logged_user, user):
         error = False
@@ -124,17 +136,33 @@ class editaUsuarioController():
             eusuario.email = request.form['femail']
             eusuario.cargo = request.form['fcargo']
             
-
             if not (error):
                 error = not (editarUsuario(db, eusuario))
-            if error:
-                return render_template('Ususarios.html', usuario = eusuario, error = error, agrega = False)
-            else:
+
+            if not (error):
                 flash("Usuario guardado con exito")
-                return render_template('Ususarios.html', usuario = eusuario, error = error, agrega = False)
+  
+            return render_template('Ususarios.html', usuario = eusuario, error = error, agrega = False)
 
         else:
             if eusuario != ():
                 return render_template('Ususarios.html', usuario = eusuario, error = False, agrega = False)
+            else:
+                return redirect(url_for('inicio'))
+
+
+    @classmethod
+    def renderEliminaUsuario(rq, db, logged_user, user):
+        error = False
+        eusuario = cargaUsuario(db, user)
+        if request.method == 'POST':
+            error = not (eliminarUsuario(db,eusuario))
+            if not (error):
+                flash("Usuario eliminado con exito")
+
+            return render_template('Ususarios.html', usuario = eusuario, error = error, agrega = False, elimina = True)
+        else:
+            if eusuario != ():
+                return render_template('Ususarios.html', usuario = eusuario, error = False, agrega = False, elimina = True)
             else:
                 return redirect(url_for('inicio'))
