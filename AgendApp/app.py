@@ -64,7 +64,7 @@ def logout():
 @login_required        
 def dashBoard():
     global logged_user
-    accion, logged_user.agenda = DashBoardController.loginController(db, logged_user)
+    accion, logged_user.agenda = DashBoardController.loginController(db, logged_user, 1)
     return accion
     #return render_template('DashBoard.html')
 
@@ -77,6 +77,12 @@ def dashBoardUser(user):
     accion, logged_user.agenda = DashBoardController.loginController(db, logged_user)
     return accion
 
+@app.route('/dashBoard/<int:pagina>')
+@login_required        
+def dashBoardPaginas(pagina):
+    global logged_user
+    accion, logged_user.agenda = DashBoardController.loginController(db, logged_user, pagina)
+    return accion
 
 @app.route('/admin-dashboard', methods=['GET', 'POST'])
 @login_required        

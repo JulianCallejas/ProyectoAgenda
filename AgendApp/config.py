@@ -4,10 +4,10 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG=True # estamos en modo desarrollo
     MYSQL_HOST = 'localhost'
-    MYSQL_USER = 'agendapp'
-    MYSQL_PASSWORD = 'agendapp1' 
+    MYSQL_USER = 'root'
+    MYSQL_PASSWORD = 'Felipe1148' 
     MYSQL_DB = 'agendapp'
-    MYSQL_PORT = 3307
+    MYSQL_PORT = 3306
 config={
     'development':DevelopmentConfig
 }    

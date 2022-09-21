@@ -33,28 +33,30 @@
     <div class="contenedor">
         <div class="filter"></div>
 
-        {% for tarea in tareas  %}
-        {% if tarea.13 != "Completa" %}
-        <div class="caja">
-            <a href="task/{{tarea.4}}">
-                <h3>{{  tarea.10 }}</h3>
-                <p>{{ tarea.11 }}</p>
-                <div class="hora">{{ tarea.7 }} {{tarea.8}}</div>
-            </a>
-        </div>
-        {% else %}
-        <div class="ter caja">
-            <a href="task/{{tarea.4}}">
-                <h3>{{  tarea.10 }}</h3>
-                <p>{{ tarea.11 }}</p>
-                <div class="hora">{{ tarea.7 }}</div>
-            </a>
-        </div>
-        {% endif %}
+        {% for nu in range(pagina[0]*3) %}
+            {% if pagina[1] > nu %}
+                {% if tareas[nu].13 != "Completa" %}
+                <div class="caja">
+                    <a href="task/{{tareas.4}}">
+                        <h3>{{  tareas[nu].10 }}</h3>
+                        <p>{{ tareas[nu].11 }}</p>
+                        <div class="hora">{{ tareas[nu].7 }} {{tareas[nu].8}}</div>
+                    </a>
+                </div>
+                {% else %}
+                <div class="ter caja">
+                    <a href="task/{{tareas.4}}">
+                        <h3>{{  tareas[nu].10 }}</h3>
+                        <p>{{ tareas[nu].11 }}</p>
+                        <div class="hora">{{ tareas[nu].7 }}</div>
+                    </a>
+                </div>
+                {% endif %}
+            {% endif %}
         {% endfor %}
 
         <div class="ver-mas">
-            <a href="#">
+            <a href="/dashBoard/{{pagina[0]+1}}#{{pagina[0]*3}}">
                 <span class="material-symbols-outlined">
                     expand_more
                 </span>
