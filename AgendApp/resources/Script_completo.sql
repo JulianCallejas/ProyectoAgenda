@@ -644,12 +644,26 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `SP_SelectTarea`(IN p_Id_Tarea int)
+CREATE DEFINER=`agendapp`@`localhost` PROCEDURE `SP_SelectTarea`(IN p_Usuario varchar(15), p_Id_Tarea int)
 BEGIN
-	SELECT Id_Tarea, Usuario, Creadapor, Fecha, Hora_Inicio, Hora_Final, Titulo_Tarea, Descripcion, Comentarios, 
-    Estado, Fecha_Creacion, Fecha_Cierre, Id_Agenda1
-	FROM tareas
-    WHERE Id_Tarea = p_Id_Tarea;
+	SELECT 	usu.Usuario, 
+		usu.Email, 
+        usu.Administrador, 
+        age.Id_Agenda, 
+        tar.Id_tarea, 
+        tar.Usuario, 
+        tar.Creadapor, 
+        tar.Fecha, 
+        tar.Hora_Inicio, 
+        tar.Hora_Final, 
+        tar.Titulo_Tarea, 
+        tar.Descripcion, 
+        tar.Comentarios, 
+        tar.Estado, 
+        tar.Fecha_Creacion, 
+        tar.Fecha_Cierre
+FROM usuarios AS usu LEFT JOIN agendas  AS age ON usu.Usuario = age.Usuario LEFT JOIN tareas AS tar ON age.Id_Agenda = tar.Id_Agenda1
+WHERE usu.Usuario = p_Usuario AND tar.Id_tarea =  p_Id_Tarea;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
