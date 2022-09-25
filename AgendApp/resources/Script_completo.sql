@@ -134,14 +134,14 @@ CREATE TABLE `tareas` (
   `Usuario` varchar(45) NOT NULL,
   `Creadapor` varchar(45) NOT NULL,
   `Fecha` date NOT NULL,
-  `Hora_Inicio` time NOT NULL,
-  `Hora_Final` time NOT NULL,
+  `Hora_Inicio` time,
+  `Hora_Final` time,
   `Titulo_Tarea` varchar(45) NOT NULL,
   `Descripcion` varchar(255) DEFAULT NULL,
   `Comentarios` text,
-  `Estado` varchar(45) NOT NULL,
+  `Estado` varchar(45) DEFAULT 'Pendiente',
   `Fecha_Creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Fecha_Cierre` datetime NOT NULL,
+  `Fecha_Cierre` datetime,
   `Id_Agenda1` int NOT NULL,
   PRIMARY KEY (`Id_Tarea`,`Id_Agenda1`),
   UNIQUE KEY `Id_tarea_UNIQUE` (`Id_Tarea`),
@@ -497,7 +497,7 @@ CREATE PROCEDURE `SP_CreateTareas`(IN p_Usuario varchar(45), p_Creadapor varchar
 p_Hora_Final time, p_Titulo_Tarea varchar(45), p_Descripcion varchar(255), p_Comentarios text, p_Estado varchar(45), p_Fecha_Creacion datetime, 
 p_Fecha_Cierre datetime, Id_Agenda1 int)
 BEGIN
-    insert into agendas(Usuario, Creadapor, Fecha, Hora_Inicio, Hora_Final, Titulo_Tarea, Descripcion, Comentarios, 
+    insert into tareas(Usuario, Creadapor, Fecha, Hora_Inicio, Hora_Final, Titulo_Tarea, Descripcion, Comentarios, 
     Estado, Fecha_Creacion, Fecha_Cierre, Id_Agenda1)
     values (p_Usuario, p_Creadapor, p_Fecha, p_Hora_Inicio, p_Hora_Final, p_Titulo_Tarea, p_Descripcion, p_Comentarios, 
     p_Estado, p_Fecha_Creacion, p_Fecha_Cierre, Id_Agenda1);
@@ -781,16 +781,16 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `SP_UpdateTareas`(IN p_Id_Tarea int, p_Usuario varchar(45), p_Creadapor varchar(45), p_Fecha date, p_Hora_Inicio time,
-p_Hora_Final time, p_Titulo_Tarea varchar(45), p_Descripcion varchar(255), p_Comentarios text, p_Estado varchar(45), p_Fecha_Creacion datetime, 
-p_Fecha_Cierre datetime, Id_Agenda1 int)
+CREATE PROCEDURE `SP_UpdateTareas`(IN p_Id_Tarea int, p_Fecha date, p_Hora_Inicio time,
+p_Hora_Final time, p_Titulo_Tarea varchar(45), p_Descripcion varchar(255), p_Comentarios text, p_Estado varchar(45),  
+p_Fecha_Cierre datetime)
 BEGIN
     UPDATE tareas
-    SET Usuario = p_Usuario, Creadapor = p_Creadapor, Fecha = p_Fecha, Hora_Inicio = p_Hora_Inicio,
+    SET Fecha = p_Fecha, Hora_Inicio = p_Hora_Inicio,
     Hora_Final = p_Hora_Final, Titulo_Tarea = p_Titulo_Tarea, Descripcion = p_Descripcion, Comentarios = p_Comentarios,
-    Estado = p_Estado, Fecha_Creacion = p_Fecha_Creacion, Fecha_Cierre = p_Fecha_Cierre, Id_Agenda1 = p_Id_Agenda1
+    Estado = p_Estado, Fecha_Cierre = p_Fecha_Cierre
     WHERE Id_Tarea = p_Id_Tarea;
-END ;;
+END;;
 DELIMITER ;
 
 
