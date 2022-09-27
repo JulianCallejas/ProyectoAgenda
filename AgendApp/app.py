@@ -18,7 +18,9 @@ from model.tarea import Tarea
 #Controladores paginas:
 from controller.login import LoginController
 from controller.dashBoard import DashBoardController
-from controller.settings import SettingsController
+from controller.adminDashboard import SettingsController
+from controller.adminUsuario import administraUsuarioController
+from controller.task import taskController
 
 
 app = Flask(__name__)  # Inicializamos flask con la constate name
@@ -30,9 +32,7 @@ db = new_func(app)
 csrf = CSRFProtect()
 logged_user = False
 
-
 login_manager_app = LoginManager(app)
-
 user1 = ""
 passw1 = ""
 
@@ -64,16 +64,100 @@ def logout():
 @app.route('/dashBoard')
 @login_required        
 def dashBoard():
-    accion = DashBoardController.loginController(db, logged_user)
+    global logged_user
+    accion, logged_user.agenda = DashBoardController.loginController(db, logged_user, 1)
     return accion
     #return render_template('DashBoard.html')
 
 
-@app.route('/settings')
+@app.route('/dashBoard/<string:user>')
 @login_required        
-def settings():
-    accion = SettingsController.loginController(db, logged_user)
+def dashBoardUser(user):
+    global logged_user
+    logged_user.usuarioCon = user
+    accion, logged_user.agenda = DashBoardController.loginController(db, logged_user,1)
     return accion
+
+@app.route('/dashBoard/<int:pagina>')
+@login_required        
+def dashBoardPaginas(pagina):
+    global logged_user
+    accion, logged_user.agenda = DashBoardController.loginController(db, logged_user, pagina)
+    return accion
+
+@app.route('/admin-dashboard', methods=['GET', 'POST'])
+@login_required        
+def adminDashboard():
+    global logged_user
+    accion = SettingsController.loginController(db, logged_user, 1)
+    return accion
+
+
+@app.route('/admin-dashboard/<int:pagina>', methods=['GET', 'POST'])
+@login_required        
+def adminDashboardPaginas(pagina):
+    global logged_user
+    accion = SettingsController.loginController(db, logged_user, pagina)
+    return accion
+  
+
+@app.route('/agrega-usuario', methods=['GET', 'POST'])
+@login_required        
+def agregaUsuario():
+    global logged_user
+    if logged_user.esAdmin:
+          accion = administraUsuarioController.renderAgregaUsuario(db, logged_user)
+          return accion
+    else:
+        return inicio()
+
+@app.route('/edita-usuario/<string:user>', methods=['GET', 'POST'])
+@login_required        
+def editaUsuario(user):
+    global logged_user
+    accion = administraUsuarioController.renderEditaUsuario(db, logged_user, user)
+    return accion
+
+@app.route('/elimina-usuario/<string:user>', methods=['GET', 'POST'])
+@login_required        
+def eliminaUsuario(user):
+    global logged_user
+    accion = administraUsuarioController.renderEliminaUsuario(db, logged_user, user)
+    return accion
+
+
+@app.route('/task/<string:idtask>', methods=['GET', 'POST'])  
+@login_required        
+def task(idtask):
+    global logged_user
+    accion = taskController.editarTarea(db,logged_user,idtask)
+    return accion
+    
+
+@app.route('/newtask', methods=['GET', 'POST'])  
+@login_required        
+def newTask():
+    global logged_user
+    accion = taskController.crearTarea(db,logged_user)
+    return accion
+
+@app.route('/deltask/<string:idtask>', methods=['GET', 'POST'])  
+@login_required
+def delTask(idtask):
+    global logged_user
+    accion = taskController.eliminarTarea(db,logged_user,idtask)
+    return accion
+
+
+
+@app.route('/inicio')  
+@login_required        
+def inicio():
+    global logged_user
+    if logged_user.esAdmin:
+        return adminDashboard()
+    else:
+        return dashBoard()
     
 
 def status_401(error):
@@ -88,3 +172,4 @@ if __name__ == '__main__':
     app.register_error_handler(401, status_401)
     app.register_error_handler(404, status_404)
     app.run()
+    

@@ -37,6 +37,7 @@ body{
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    top:50px;
 }
 
 .caja{
@@ -46,6 +47,11 @@ body{
     margin-top: 57px;
     padding-left: 15px;
     padding-right: 15px;
+}
+
+
+.ter{
+    background-color: #ffecad !important;
 }
 
 .btn-floating{
@@ -65,6 +71,7 @@ body{
 .navbtn{
     display: flex;
     flex-direction: row;
+    float: right;
 }
 .navbtn:hover .btn-floating + .opciones{
     display: flex;
@@ -75,6 +82,7 @@ body{
 .opciones{
     opacity: 0;
     display: none;
+    flex-wrap: wrap;
 }   
 
 @keyframes dis {
@@ -82,9 +90,28 @@ body{
     to{
         display: flex;
         opacity: 1;
+        
     }
 }
 
+.ver-mas {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    animation-name: vermas;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+    .ver-mas a {
+        margin-right: 20px;
+    }
+
+
+    @keyframes vermas {
+    0%   {transform: translateY(0px);}
+    25%  {transform: translateY(25px);}
+    100% {transform: translateY(0px);}
+}
 
 .opciones a{
     
@@ -103,3 +130,35 @@ body{
     top: 70px;
     position: relative;
 }
+
+a {
+
+    color: black !important;
+    text-decoration: none;
+}
+
+
+    a:link {
+        color: black !important;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: black !important;
+        text-decoration: none;
+    }
+
+    a:focus {
+        color: black !important;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: black !important;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: black !important;
+        text-decoration: none;
+    }

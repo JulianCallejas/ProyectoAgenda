@@ -1,11 +1,11 @@
-from datetime import date, time
+from datetime import date, time, timedelta, datetime
 
 
 class Tarea:
     """Clase que representa a una tarea de la aplicación
     """
-    def __init__(self, id_tarea:int, fecha_creacion:date, usuario:str, creada_por:str, fecha:date, hora_inicio:time, hora_final:time, titulo_tarea:str, 
-                 descripcion:str,comentarios:str, estado:str, fecha_cierre:date) -> None:
+    def __init__(self, id_tarea:int, usuario:str,  creada_por:str, fecha:date, hora_inicio:str, hora_final:str,  titulo_tarea:str, 
+                 descripcion:str,comentarios:str, estado:str, fecha_creacion:date, fecha_cierre:date, idAgenda:int) -> None:
         """Constructor de la clase tarea
 
         Args:
@@ -14,8 +14,8 @@ class Tarea:
             usuario (str): El nombre de usuario asignado a la tarea
             creada_por (str): El nombre de usuario que creo la tarea
             fecha (date): La fecha de modificación más reciente de la tarea
-            hora_inicio (time): La hora de inicio de la tarea
-            hora_final (time): La hora final de la tarea
+            hora_inicio (str): La hora de inicio de la tarea
+            hora_final (str): La hora final de la tarea
             titulo_tarea (str): El titulo de la tarea
             descripcion (str): La descripción de la tarea
             comentarios (str): Los comentarios asociados a la tarea
@@ -34,6 +34,7 @@ class Tarea:
         self.__comentarios = comentarios
         self.__estado = estado
         self.__fecha_cierre = fecha_cierre
+        self.__idAgenda = idAgenda 
         
     def __str__(self) -> str:
         """Retorna una cadena representativa de la tarea
@@ -41,7 +42,7 @@ class Tarea:
         Returns:
             str: La cadena representativa de la tarea
         """
-        return self.__id_tarea+":"+self.__titulo_tarea+":"+self.__usuario
+        return str(self.__id_tarea)+":"+self.__titulo_tarea+":"+self.__usuario
     
     '''
     Getters
@@ -93,21 +94,28 @@ class Tarea:
         return self.__fecha
     
     @property
-    def hora_inicio(self)->time:
+    def hora_inicio(self)->str:
         """Retorna la hora de inicio de la tarea
 
         Returns:
             time: La hora de inicio de la tarea
         """
-        return self.__hora_inicio
+        indice = self.__hora_inicio.find(":")
+        if indice ==1: return str("0" + self.__hora_inicio)[0:5]
+
+        return self.__hora_inicio[0:5]
     
     @property
-    def hora_final(self)->time:
+    def hora_final(self)->str:
         """Retorna la fecha de finalización de la tarea
 
         Returns:
             time: La hora de finalización de la tarea
         """
+
+        indice = self.__hora_final.find(":")
+        if indice ==1: return str("0" + self.__hora_final)[0:5]
+
         return self.__hora_final
     
     @property
@@ -149,6 +157,27 @@ class Tarea:
     @property
     def fecha_cierre(self)->str:
         return self.__fecha_cierre
+
+
+    @property
+    def idAgenda(self)->int:
+        """Retorna la id de la tarea
+
+        Returns:
+            int: La id de la tarea
+        """
+        return self.__idAgenda
+    
+    def compruebaHoraFinal(self):
+        if self.hora_final:
+            if self.hora_inicio:
+                horafin= int(self.hora_final[0:2]) + float(int(self.hora_final[3:5])/60)
+                horaini=int(self.hora_inicio[0:2]) + float(int(self.hora_inicio[3:5])/60)
+                return False if horafin<horaini else True
+            else: return False
+        else: return True
+        
+
 
     '''
     Setters
@@ -200,7 +229,7 @@ class Tarea:
         self.__fecha = fecha
         
     @hora_inicio.setter
-    def hora_inicio(self, hora_inicio:time)->None:
+    def hora_inicio(self, hora_inicio:str)->None:
         """Actualiza la hora de inicio de la tarea
 
         Args:
@@ -209,7 +238,7 @@ class Tarea:
         self.__hora_inicio=hora_inicio
         
     @hora_final.setter
-    def hora_final(self, hora_final:time)->None:
+    def hora_final(self, hora_final:str)->None:
         """Actualiza la hora de finalización de la tarea
 
         Args:
@@ -261,3 +290,17 @@ class Tarea:
             fecha_cierre (date): La fecha de cierre de la tarea
         """
         self.__fecha_cierre = fecha_cierre
+
+
+    @idAgenda.setter
+    def idAgenda(self, idAgenda:int)->None:
+        """Actualiza el id agenda
+
+        Args:
+            idAgenda (int): El nuevo id de la agenda
+        """
+        self.__idAgenda = idAgenda
+
+
+    
+
