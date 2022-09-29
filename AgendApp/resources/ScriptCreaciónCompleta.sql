@@ -720,7 +720,7 @@ DELIMITER ;;
 CREATE PROCEDURE `SP_SelectUsuariosWord`(IN p_Word varchar(15))
 BEGIN
     SELECT id, usu.Usuario, Id_Empleado, Nombre, Apellido, Cargo, Email, Administrador
-	FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario 
+	FROM usuarios AS usu LEFT JOIN empleados AS emp ON usu.Usuario = emp.Usuario 
 	WHERE CONCAT(UPPER(usu.Usuario), UPPER(usu.Email), UPPER(usu.Administrador), UPPER(emp.Id_Empleado), UPPER(emp.Nombre), UPPER(emp.Apellido), UPPER(emp.Cargo)) LIKE CONCAT('%', UPPER(p_Word), '%')
 	ORDER BY usu.Usuario, emp.Nombre, emp.Apellido;
 END ;;
@@ -863,7 +863,7 @@ DELIMITER ;;
 CREATE PROCEDURE `SP_UserData`(IN loguser VARCHAR(15))
 BEGIN
 SELECT usu.id, usu.Usuario, usu.Contrasena, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo
-FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario
+FROM usuarios AS usu LEFT JOIN empleados AS emp ON usu.Usuario = emp.Usuario
 WHERE usu.Usuario = loguser;
 END ;;
 DELIMITER ;
@@ -884,7 +884,7 @@ DELIMITER ;;
 CREATE PROCEDURE `SP_UserDataById`(IN logid INT)
 BEGIN
 SELECT usu.id, usu.Usuario, usu.Contrasena, usu.Email, usu.Administrador, emp.Id_Empleado, emp.Nombre, emp.Apellido, emp.Cargo
-FROM agendapp.usuarios AS usu LEFT JOIN agendapp.empleados AS emp ON usu.Usuario = emp.Usuario
+FROM usuarios AS usu LEFT JOIN empleados AS emp ON usu.Usuario = emp.Usuario
 WHERE usu.id = logid;
 END ;;
 DELIMITER ;

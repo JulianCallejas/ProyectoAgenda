@@ -102,8 +102,7 @@
             <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
             <div class="opciones">
                 <a class="waves-effect waves-light btn-large color-back" href="/dashBoard/{{usuario.usuarioCon}}">Regresar</a>
-                <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
-
+                <a class="waves-effect waves-light btn-large color-back"><input type="submit" value="Guardar"></input></a>
                 <row>
                     <br /><label for="textarea">Comentarios</label><br />
                     <textarea class="textarea-comentarios" id="comentarios" name="comentarios" placeholder="Comentarios"></textarea>
@@ -242,8 +241,8 @@
             <a class="btn-floating btn-large waves-effect waves-light color-back"><i class="material-icons">+</i></a>
             <div class="opciones">
                 <a class="waves-effect waves-light btn-large color-back" href="/dashBoard/{{task.usuario}}">Regresar</a>
-                <button class="waves-effect waves-light btn-large color-back" type="submit">Guardar</button>
-                <button type="button" class="waves-effect waves-light btn-large color-back" data-bs-toggle="modal" data-bs-target="#confrimaEliminar">Eliminar</button>
+                <a class="waves-effect waves-light btn-large color-back"><input type="submit" value="Guardar"></input></a>
+                <a class="waves-effect waves-light btn-large color-back"><input type="button" data-bs-toggle="modal" data-bs-target="#confrimaEliminar" value="Emilinar"></input></a>
 
                 <textarea class="textarea-comentarios" name="comentarios">{{task.comentarios}}</textarea>
                 <div class="datos1">
