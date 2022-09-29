@@ -34,9 +34,7 @@
                 <!-- Mensajes de resultado -->
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                <a data-bs-toggle="collapse" href="#mensaje" role="button" aria-expanded="true" aria-controls="mensaje">
-                    <label style="color:black">*</label>
-                </a>
+                
                 {% if error %}
                 <div class="collapse show" id="mensaje">
                     <div class="card border-danger">
@@ -133,9 +131,7 @@
                 <!-- Mensajes de resultado -->
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                <a data-bs-toggle="collapse" href="#mensaje" role="button" aria-expanded="true" aria-controls="mensaje">
-                    <label style="color:black">*</label>
-                </a>
+                
                 {% if error %}
                 <div class="collapse show" id="mensaje">
                     <div class="card border-danger">
@@ -242,7 +238,7 @@
             <div class="opciones">
                 <a class="waves-effect waves-light btn-large color-back" href="/dashBoard/{{task.usuario}}">Regresar</a>
                 <a class="waves-effect waves-light btn-large color-back"><input type="submit" value="Guardar"></input></a>
-                <a class="waves-effect waves-light btn-large color-back"><input type="button" data-bs-toggle="modal" data-bs-target="#confrimaEliminar" value="Emilinar"></input></a>
+                <a class="waves-effect waves-light btn-large color-back"><input type="button" data-bs-toggle="modal" data-bs-target="#confrimaEliminar" value="Eliminar"></input></a>
 
                 <textarea class="textarea-comentarios" name="comentarios">{{task.comentarios}}</textarea>
                 <div class="datos1">
@@ -289,9 +285,7 @@
                 <!-- Mensajes de resultado -->
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                <a data-bs-toggle="collapse" href="#mensaje" role="button" aria-expanded="true" aria-controls="mensaje">
-                    <label style="color:black">*</label>
-                </a>
+               
                 {% if error %}
                 <div class="collapse show" id="mensaje">
                     <div class="card border-danger">

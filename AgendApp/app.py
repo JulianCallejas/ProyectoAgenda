@@ -149,6 +149,13 @@ def delTask(idtask):
     return accion
 
 
+@app.route('/task/None')  
+@login_required        
+def taskNone():
+    global logged_user
+    accion = dashBoardPaginas(1)
+    return accion
+
 
 @app.route('/inicio')  
 @login_required        
