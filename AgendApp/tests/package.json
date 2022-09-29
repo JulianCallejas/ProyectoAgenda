@@ -1,0 +1,17 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "Para realizar las pruebas de la aplicación se utilizo la herramienta [Postman](https://www.postman.com/) la cual es una herramienta usada para realizar pruebas a API's principalmente.\r En este caso las pruebas se realizaron a los endpoints de la aplicación, los cuales retornan como respuesta una pagina HTML completa.\r Las pruebas realizadas a a la aplicación se pueden categorizar como pruebas unitarias y de integración.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dateformat": "^1.0.2-1.2.3",
+    "newman": "^5.3.2",
+    "newman-reporter-htmlextra": "^1.22.11"
+  }
+}

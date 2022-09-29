@@ -1,0 +1,753 @@
+{
+	"info": {
+		"_postman_id": "74eed336-5ac1-4095-96c2-421fb9950f63",
+		"name": "AgendAPP",
+		"description": "Pruebas realizadas a la aplicación AgendAPP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11866142"
+	},
+	"item": [
+		{
+			"name": "01-paginaPrincipal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código de respuesta 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"pm.test(\"Body contiene texto de información de login\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Log-in\", \"Usuario\", \"Contraseña\", \"Iniciar Sesión\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCALHOST}}",
+					"host": [
+						"{{LOCALHOST}}"
+					]
+				},
+				"description": "Este test evalua que se pueda acceder correctamente a la página principal de la aplicación. Se espera la siguiente respuesta:`Status code: Code in 200`."
+			},
+			"response": []
+		},
+		{
+			"name": "02-adminDashboardRestringuido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código de respuesta 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"pm.test(\"Body contiene texto asociado a la página de login a la que es redireccionado un usuario no autenticado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Log-in\", \"Usuario\", \"Contraseña\", \"Iniciar Sesión\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// En caso de haber una sesión activa se hace un logout\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/logout\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCALHOST}}/admin-dashboard",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"admin-dashboard"
+					]
+				},
+				"description": "Este test evalua que no se pueda acceder al dashboard del administrador sin autenticarse, lo que genera un redireccionamiento a la página principal (Login)."
+			},
+			"response": []
+		},
+		{
+			"name": "03-adminEditarUsuarioRestringuido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código de respuesta 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"pm.test(\"Body contiene texto asociado a la página de login a la que es redireccionado un usuario no autenticado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Log-in\", \"Usuario\", \"Contraseña\", \"Iniciar Sesión\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// En caso de haber una sesión activa se hace un logout\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/logout\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCALHOST}}/edita-usuario/andres",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"edita-usuario",
+						"andres"
+					]
+				},
+				"description": "Este test evalua que no se pueda acceder a la página correspondiente a la edicicón de un usuario sin autenticarse como administrador, lo que genera un redireccionamiento a la página principal (Login)."
+			},
+			"response": []
+		},
+		{
+			"name": "04-loginAdminError",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"pm.test(\"Usuario/Contraseña incorrectos\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Usuario y contraseña incorrectos\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de login y se lo almacena en una variable de colección para realizar las posteriores pruebas de login\r",
+							"pm.sendRequest(pm.variables.get(\"LOCALHOST\"), function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    console.log(csrf_token)\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/login",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Test que evalúa la respuesta de la aplicación cuando se ingresan credenciales de administrador no válidas. Además, se verifica que se recupere correctamente el token CSRF requerido para enviar una petición a través del formulario."
+			},
+			"response": []
+		},
+		{
+			"name": "05-loginAdminExitoso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"pm.test(\"Ingreso como administrador exitoso\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bienvenido\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de login y se lo almacena en una variable de colección para realizar las posteriores pruebas de login\r",
+							"pm.sendRequest(pm.variables.get(\"LOCALHOST\"), function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    console.log(csrf_token)\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "angel",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "vicio6",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/login",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Test que evalúa la respuesta de la aplicación cuando se ingresan credenciales válidas, lo que redirige a la página del dashboard del administrador. Además, se verifica que se recupere correctamente el token CSRF requerido para enviar una petición a través del formulario."
+			},
+			"response": []
+		},
+		{
+			"name": "06-adminBusquedaUsuarios",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"pm.test(\"Búsqueda de usuario exitosa\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bienvenido\");\r",
+							"});\r",
+							"pm.test(\"Body contiene texto asociado al usuario buscado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Apellido: Acosta\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Busar_Usuario",
+							"value": "acosta",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/admin-dashboard",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"admin-dashboard"
+					]
+				},
+				"description": "Test que evalúa la funcionalidad de buscar un usuario que se encuentra disponible en el dashboard del administrador. Este test busca un apellido (Acosta) que se encuentra registrado por defecto como parte de los datos de prueba al crear la base de datos. Está prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 04-loginAdminExitoso.**"
+			},
+			"response": []
+		},
+		{
+			"name": "07-adminAgregarUsuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF de formulario de edición de usuario existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Petición correcta\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).to.include(\"Usuario guardado con exito\")\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Se comprueba que se agrego el nuevo usuario comprobando que existan sus datos\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Morales\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de edición de usuario y se lo almacena en la variable de colección CSRF_TOKEN\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/agrega-usuario\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fnombre",
+							"value": "Prueba",
+							"type": "text"
+						},
+						{
+							"key": "fcontrasena",
+							"value": "1234567",
+							"type": "text"
+						},
+						{
+							"key": "fcontrasena2",
+							"value": "1234567",
+							"type": "text"
+						},
+						{
+							"key": "femail",
+							"value": "userprueba@correo.com",
+							"type": "text"
+						},
+						{
+							"key": "fapellido",
+							"value": "Morales",
+							"type": "text"
+						},
+						{
+							"key": "fcargo",
+							"value": "Operario",
+							"type": "text"
+						},
+						{
+							"key": "fnumeroid",
+							"value": "12345765",
+							"type": "text"
+						},
+						{
+							"key": "fusuario",
+							"value": "pruebauser",
+							"type": "text"
+						},
+						{
+							"key": "fcargo",
+							"value": "Operario",
+							"type": "text"
+						},
+						{
+							"key": "submit",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/agrega-usuario",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"agrega-usuario"
+					]
+				},
+				"description": "Test que evalúa la funcionalidad de agregar un usuario que se encuentra disponible en el dashboard del administrador. Este test agrega un empleado/usuario cuyo nombre de usuario es pruebauser. La prueba verifica que se cree exitosamente el usuario.\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 04-loginAdminExitoso.**"
+			},
+			"response": []
+		},
+		{
+			"name": "08-adminEliminarUsuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF de formulario de edición de usuario existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Petición correcta\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.text()).to.include(\"Usuario eliminado con exito\")\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de edición de usuario y se lo almacena en la variable de colección CSRF_TOKEN\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/edita-usuario/juan1234\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fusuario",
+							"value": "juan1234",
+							"type": "text"
+						},
+						{
+							"key": "fcontrasena",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "fcontrasena2",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "femail",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "fnumeroid",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "fnombre",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "fapellido",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "fcargo",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "submit",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/elimina-usuario/pruebauser",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"elimina-usuario",
+						"pruebauser"
+					]
+				},
+				"description": "Test que evalúa la funcionalidad de eliminar un usuario que se encuentra disponible en el dashboard del administrador. Este test elimina especificamente al empleado de nombre de usuario pruebauser.\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 04-loginAdminExitoso.**\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 07-adminAgregarUsuario, DEBIDO A QUE EL USUARIO QUE SE ELIMINA ES EL MISMO QUE SE CREA EN DICHA PRUEBA**"
+			},
+			"response": []
+		},
+		{
+			"name": "09-adminEditarUsuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF de formulario de edición de usuario existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"\r",
+							"const nombre_viejo = pm.collectionVariables.get(\"NOMBRE_VIEJO\");\r",
+							"const nombre_nuevo_pre_request = pm.collectionVariables.get(\"NOMBRE_NUEVO\");\r",
+							"\r",
+							"pm.test(\"Se comprueba que el nombre nuevo del formulario conincida con el generado en el prerequest\", function () {\r",
+							"    \r",
+							"    const $ = cheerio.load(pm.response.text());\r",
+							"    const nombre_nuevo = $('input')[6].attribs['value'];\r",
+							"    pm.expect(nombre_nuevo).to.be.not.null\r",
+							"    pm.expect(nombre_nuevo).to.be.eql(nombre_nuevo_pre_request)\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Se comprueba que al actualizar el nombre del usuario, este sea diferente al nombre viejo almacenado en el pre-request script\", function () {\r",
+							"    pm.expect(nombre_viejo).to.be.not.null\r",
+							"    const $ = cheerio.load(pm.response.text());\r",
+							"    const nombre_nuevo = $('input')[6].attribs['value'];\r",
+							"    pm.expect(nombre_nuevo).to.not.be.equals(nombre_viejo);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de edición de usuario y se lo almacena en la variable de colección CSRF_TOKEN\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/edita-usuario/user10\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"    // Se obtiene el nombre viejo para comprobar que despues de la petición ha sido modificado\r",
+							"    const nombreViejo = $('input')[6].attribs['value'];\r",
+							"    pm.collectionVariables.set(\"NOMBRE_VIEJO\",nombreViejo);\r",
+							"    // Genera un nombre nuevo aleatorio\r",
+							"   const nombreNuevo = (btoa(+new Date).slice(-8, -2));\r",
+							"   pm.collectionVariables.set(\"NOMBRE_NUEVO\",nombreNuevo);\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fnombre",
+							"value": "{{NOMBRE_NUEVO}}",
+							"type": "text"
+						},
+						{
+							"key": "fcontrasena",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "fcontrasena2",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "femail",
+							"value": "user10@correo.com",
+							"type": "text"
+						},
+						{
+							"key": "fapellido",
+							"value": "Acosta",
+							"type": "text"
+						},
+						{
+							"key": "fcargo",
+							"value": "Operario",
+							"type": "text"
+						},
+						{
+							"key": "fnumeroid",
+							"value": "11110010",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/edita-usuario/user10",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"edita-usuario",
+						"user10"
+					]
+				},
+				"description": "Test que evalúa la funcionalidad de editar un usuario que se encuentra disponible en el dashboard del administrador. Este test edita especificamente al nombre del empleado identificado con el username user10. La prueba verifica que se modifique el nombre del usuario.\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 04-loginAdminExitoso.**"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "LOCALHOST",
+			"value": "http://127.0.0.1:5000",
+			"type": "string"
+		},
+		{
+			"key": "CSRF_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "NOMBRE_VIEJO",
+			"value": ""
+		},
+		{
+			"key": "NOMBRE_NUEVO",
+			"value": ""
+		}
+	]
+}
