@@ -1,4 +1,4 @@
-from .entitis.User import User
+#from .entitis.User import User
 from controller.manejoPassword import Contrasena
 from model.persona import Persona
 
