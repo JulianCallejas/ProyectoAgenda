@@ -11,7 +11,7 @@ const reportName = 'AgendaAPPTests.html';
 newman.run({
     collection,
     reporters: ['cli', 'htmlextra'],
-    iterationCount: 1,
+    iterationCount: 2,
     reporter: {
         htmlextra: {
             // commented lines are the all possibilities available to be set for the report document

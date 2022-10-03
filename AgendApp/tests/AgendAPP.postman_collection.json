@@ -132,7 +132,7 @@
 						"andres"
 					]
 				},
-				"description": "Este test evalua que no se pueda acceder a la página correspondiente a la edicicón de un usuario sin autenticarse como administrador, lo que genera un redireccionamiento a la página principal (Login)."
+				"description": "Este test evalua que no se pueda acceder a la página correspondiente a la edición de un usuario sin autenticarse como administrador, lo que genera un redireccionamiento a la página principal (Login)."
 			},
 			"response": []
 		},
@@ -709,6 +709,600 @@
 				"description": "Test que evalúa la funcionalidad de editar un usuario que se encuentra disponible en el dashboard del administrador. Este test edita especificamente al nombre del empleado identificado con el username user10. La prueba verifica que se modifique el nombre del usuario.\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 04-loginAdminExitoso.**"
 			},
 			"response": []
+		},
+		{
+			"name": "10-usuarioDashboardRestringuido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código de respuesta 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"pm.test(\"Body contiene texto asociado a la página de login a la que es redireccionado un usuario no autenticado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Log-in\", \"Usuario\", \"Contraseña\", \"Iniciar Sesión\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// En caso de haber una sesión activa se hace un logout\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/logout\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCALHOST}}/dashBoard",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"dashBoard"
+					]
+				},
+				"description": "Este test evalua que no se pueda acceder al dashboard o página principal de un usuario sin autenticarse, lo que genera un redireccionamiento a la página principal (Login)."
+			},
+			"response": []
+		},
+		{
+			"name": "11-usuarioEditarPerfilRestringuido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código de respuesta 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"pm.test(\"Body contiene texto asociado a la página de login a la que es redireccionado un usuario no autenticado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Log-in\", \"Usuario\", \"Contraseña\", \"Iniciar Sesión\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// En caso de haber una sesión activa se hace un logout\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/logout\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCALHOST}}/edita-usuario/pepe",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"edita-usuario",
+						"pepe"
+					]
+				},
+				"description": "Este test evalua que no se pueda acceder a la sección editar usuario sin autenticarse, lo que genera un redireccionamiento a la página principal (Login)."
+			},
+			"response": []
+		},
+		{
+			"name": "12-usuarioAgregarTareaRestringuido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código de respuesta 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"pm.test(\"Body contiene texto asociado a la página de login a la que es redireccionado un usuario no autenticado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Log-in\", \"Usuario\", \"Contraseña\", \"Iniciar Sesión\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// En caso de haber una sesión activa se hace un logout\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/logout\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCALHOST}}/newtask",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"newtask"
+					]
+				},
+				"description": "Este test evalua que no se pueda acceder a la sección de la página que permite crear una nueva tarea sin autenticarse, lo que genera un redireccionamiento a la página principal (Login)."
+			},
+			"response": []
+		},
+		{
+			"name": "13-loginUsuarioError",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"pm.test(\"Usuario/Contraseña incorrectos\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Usuario y contraseña incorrectos\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de login y se lo almacena en una variable de colección para realizar las posteriores pruebas de login\r",
+							"pm.sendRequest(pm.variables.get(\"LOCALHOST\"), function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    console.log(csrf_token)\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/login",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Test que evalúa la respuesta de la aplicación cuando se ingresan credenciales de usuario no válidas. Además, se verifica que se recupere correctamente el token CSRF requerido para enviar una petición a través del formulario."
+			},
+			"response": []
+		},
+		{
+			"name": "14-loginUsuarioExitoso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"pm.test(\"Ingreso como usuario exitoso\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bienvenido\");\r",
+							"});\r",
+							"pm.test(\"Body contiene texto asociado a la página de inicio de usuario\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Bienvenido,\", \"Pepe\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de login y se lo almacena en una variable de colección para realizar las posteriores pruebas de login\r",
+							"pm.sendRequest(pm.variables.get(\"LOCALHOST\"), function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    console.log(csrf_token)\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "pepe",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "vicio6",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/login",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Test que evalúa la respuesta de la aplicación cuando se ingresan credenciales válidas, lo que redirige a la página del dashboard o principal del usuario. Además, se verifica que se recupere correctamente el token CSRF requerido para enviar una petición a través del formulario."
+			},
+			"response": []
+		},
+		{
+			"name": "15-usuarioAgregarTarea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF de formulario de edición de tarea existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Se comprueba mensaje exitoso de edición de tarea\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Tarea creada exitosamente\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Se comprueba que la tarea se haya creado exitosamente y aparezca en la página principal del usuario\", function () {\r",
+							"    const ruta = pm.variables.get(\"LOCALHOST\")+\"/dashBoard/pepe\"\r",
+							"    pm.sendRequest(ruta, function (err, response) {\r",
+							"    pm.expect(response.text()).to.include(\"Tarea de prueba\");\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"// Se procede a almacenar en una variable de colección la id de la tarea agregada\r",
+							"// Teniendo en cuenta que se ordena segun fecha y estado\r",
+							"// la primer tarea que aparecera en la pagina principal será aquella que tenga la fecha más reciente o futura\r",
+							"// se extrae con cheerio dicho valor\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/dashBoard/pepe\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const id_task = $('.caja')[0].children[1].attribs['href'].split('/')[2];\r",
+							"    pm.collectionVariables.set(\"ID_TASK\", id_task);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de creación de una tarea y se lo almacena en la variable de colección CSRF_TOKEN\r",
+							"const ruta = pm.variables.get(\"LOCALHOST\")+\"/newtask\"\r",
+							"pm.sendRequest(ruta, function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fecha_maxima",
+							"value": "3000-10-02",
+							"type": "text"
+						},
+						{
+							"key": "hora_inicio",
+							"value": "08:00",
+							"type": "text"
+						},
+						{
+							"key": "hora_final",
+							"value": "23:59",
+							"type": "text"
+						},
+						{
+							"key": "titulo_tarea",
+							"value": "Tarea de Prueba",
+							"type": "text"
+						},
+						{
+							"key": "descripcion",
+							"value": "Tarea de prueba",
+							"type": "text"
+						},
+						{
+							"key": "comentarios",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/newtask",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"newtask"
+					]
+				},
+				"description": "Test que evalúa la funcionalidad de agregar una tarea que se encuentra disponible en el dashboard del usuario. Este test agrega una tarea cuyo titulo es \"Tarea de prueba\"\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 14-loginUsuarioExitoso**"
+			},
+			"response": []
+		},
+		{
+			"name": "16-usuarioEditarTarea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF de formulario de creación de tarea existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Se comprueba mensaje exitoso de edición de tarea\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Tarea actualizada correctamente\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Se comprueba que la tarea se haya editado exitosamente\", function () {\r",
+							"    const ruta = pm.variables.get(\"LOCALHOST\")+\"/dashBoard/pepe\"\r",
+							"    pm.sendRequest(ruta, function (err, response) {\r",
+							"    pm.expect(response.text()).to.include(\"Tarea de prueba editada\");\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de edicion de la tarea {{ID_TASK}} y se lo almacena en la variable de colección CSRF_TOKEN\r",
+							"const rutaEdicion = pm.variables.get(\"LOCALHOST\")+\"/task/\"+pm.collectionVariables.get(\"ID_TASK\")\r",
+							"pm.sendRequest(rutaEdicion, function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "fecha_maxima",
+							"value": "3000-10-02",
+							"type": "text"
+						},
+						{
+							"key": "hora_inicio",
+							"value": "08:00",
+							"type": "text"
+						},
+						{
+							"key": "hora_final",
+							"value": "23:59",
+							"type": "text"
+						},
+						{
+							"key": "titulo_tarea",
+							"value": "Tarea de Prueba",
+							"type": "text"
+						},
+						{
+							"key": "descripcion",
+							"value": "Tarea de prueba editada",
+							"type": "text"
+						},
+						{
+							"key": "comentarios",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "estado",
+							"value": "Pendiente",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/task/{{ID_TASK}}",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"task",
+						"{{ID_TASK}}"
+					]
+				},
+				"description": "Test que evalúa la funcionalidad de editar una tarea que se encuentra disponible en el dashboard del usuario. Este test edita una tarea cuyo titulo es \"Tarea de prueba\"\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 14-loginUsuarioExitoso**\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 15-usuarioAgregarTarea dado que la tarea agregada es la que se edita.**"
+			},
+			"response": []
+		},
+		{
+			"name": "17-usuarioEliminarTarea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Variable de entorno asociada a CSRF de formulario de creación de tarea existe\", function () {\r",
+							"    let csrf_token = pm.collectionVariables.get(\"CSRF_TOKEN\");\r",
+							"    pm.expect(csrf_token).to.be.not.undefined\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Se comprueba mensaje exitoso de eliminación de tarea\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Tarea eliminada correctamente\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Se comprueba que la tarea se haya eliminado exitosamente\", function () {\r",
+							"    const ruta = pm.variables.get(\"LOCALHOST\")+\"/dashBoard/pepe\"\r",
+							"    pm.sendRequest(ruta, function (err, response) {\r",
+							"    pm.expect(response.text()).to.not.include(\"Tarea de prueba editada\");\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Se recupera el csrf-token del formulario de edicion de la tarea {{ID_TASK}} y se lo almacena en la variable de colección CSRF_TOKEN\r",
+							"const rutaEdicion = pm.variables.get(\"LOCALHOST\")+\"/task/\"+pm.collectionVariables.get(\"ID_TASK\")\r",
+							"pm.sendRequest(rutaEdicion, function (err, response) {\r",
+							"    const $ = cheerio.load(response.text());\r",
+							"    const csrf_token = $('input')[0].attribs['value'];\r",
+							"    pm.collectionVariables.set(\"CSRF_TOKEN\", csrf_token);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-csrf-token",
+						"value": "{{CSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}/deltask/{{ID_TASK}}",
+					"host": [
+						"{{LOCALHOST}}"
+					],
+					"path": [
+						"deltask",
+						"{{ID_TASK}}"
+					]
+				},
+				"description": "Test que evalúa la funcionalidad de eliminar una tarea que se encuentra disponible en el dashboard del usuario. Este test elimina una tarea cuyo titulo es \"Tarea de prueba\"\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 14-loginUsuarioExitoso**\n\nEstá prueba **DEBE EJECUTARSE DESPUÉS DE LA PRUEBA 15-usuarioAgregarTarea dado que la tarea agregada es la que se elimina.**"
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -747,6 +1341,10 @@
 		},
 		{
 			"key": "NOMBRE_NUEVO",
+			"value": ""
+		},
+		{
+			"key": "ID_TASK",
 			"value": ""
 		}
 	]
