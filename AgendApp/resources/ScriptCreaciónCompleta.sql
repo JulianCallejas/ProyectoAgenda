@@ -644,7 +644,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`agendapp`@`localhost` PROCEDURE `SP_SelectTarea`(IN p_Usuario varchar(15), p_Id_Tarea int)
+CREATE PROCEDURE `SP_SelectTarea`(IN p_Usuario varchar(15), p_Id_Tarea int)
 BEGIN
 	SELECT 	usu.Usuario, 
 		usu.Email, 
